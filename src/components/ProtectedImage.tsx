@@ -1,8 +1,8 @@
 "use client";
 
-import Image, { type ImageProps } from 'next/image';
+import Image, { type ImageProps } from "next/image";
 
-interface ProtectedImageProps extends Omit<ImageProps, 'draggable'> {}
+interface ProtectedImageProps extends Omit<ImageProps, "draggable"> {}
 
 export function ProtectedImage({ className, ...props }: ProtectedImageProps) {
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -10,8 +10,8 @@ export function ProtectedImage({ className, ...props }: ProtectedImageProps) {
   };
 
   return (
-    <div className={`relative overflow-hidden ${className || ''}`}>
-      <Image 
+    <div className={`relative overflow-hidden ${className || ""}`}>
+      <Image
         {...props}
         className="block select-none [-webkit-touch-callout:none]"
         draggable={false}
