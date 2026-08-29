@@ -1,0 +1,8 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome
+      glob: "*.{js,jsx,ts,tsx,json,jsonc,css}"
+      # pnpm exec runs the locally installed biome binary directly, instead of
+      # going through a package.json script lookup.
+      run: pnpm exec biome check --no-errors-on-unmatched {staged_files}
