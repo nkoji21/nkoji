@@ -44,7 +44,8 @@ export default function AboutPage() {
           Hi, I&apos;m Naoki Kojima.
         </h1>
 
-        <div className="mt-6 flex max-w-160 flex-col gap-4 md:mt-8 md:text-lg">
+        {/* 3つの短い文なので、可読幅より「1文が1行に収まる」ことを優先する */}
+        <div className="mt-6 flex max-w-200 flex-col gap-4 md:mt-8 md:text-lg">
           <p>デザインが好きなソフトウェアエンジニアです！</p>
           <p>Webを中心に、さまざまなプロダクトをつくっています。</p>
           <p>
@@ -57,12 +58,19 @@ export default function AboutPage() {
             <SectionHeading eyebrow="できること">Skills</SectionHeading>
             <ul className="mt-5 flex flex-col gap-3">
               {SKILLS.map((skill) => (
-                <li key={skill} className="flex gap-2.5">
+                <li
+                  key={skill}
+                  className="flex gap-2.5 text-sm leading-relaxed md:text-base"
+                >
+                  {/* ドットとテキストで同じ行高を共有し、その中で中央に置く。
+                      固定の margin だと文字サイズが変わったときにずれる */}
                   <span
                     aria-hidden="true"
-                    className="mt-3 size-1.5 shrink-0 rounded-full bg-accent"
-                  />
-                  <span className="text-sm md:text-base">{skill}</span>
+                    className="flex h-[1lh] shrink-0 items-center"
+                  >
+                    <span className="size-1.5 rounded-full bg-accent" />
+                  </span>
+                  <span>{skill}</span>
                 </li>
               ))}
             </ul>
