@@ -55,7 +55,7 @@ const WORKS = [
 export default function WorksPage() {
   return (
     <>
-      <div className="mx-auto w-full max-w-300 flex-1 px-5 pt-10 pb-24 md:pt-16 md:pb-0">
+      <div className="mx-auto w-full max-w-300 flex-1 px-5 pt-10 md:pt-16">
         <SectionHeading eyebrow="やってきたこと">Works</SectionHeading>
 
         <ul className="mt-8 md:mt-10">
