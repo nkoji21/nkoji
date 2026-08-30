@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Viga } from "next/font/google";
+import { Titan_One, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const zenKaku = Zen_Kaku_Gothic_New({
+  weight: ["400", "700"],
   subsets: ["latin"],
+  display: "swap",
+  variable: "--font-zen-kaku",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const viga = Viga({
+const titanOne = Titan_One({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-viga",
+  display: "swap",
+  variable: "--font-titan-one",
 });
 
 export const metadata: Metadata = {
@@ -34,9 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${viga.variable} antialiased`}
-      >
+      <body className={`${zenKaku.variable} ${titanOne.variable} antialiased`}>
         {children}
       </body>
     </html>
