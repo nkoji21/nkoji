@@ -10,14 +10,10 @@ type SocialLink = {
   label: string;
   href: string;
   icon: (props: { className?: string }) => React.JSX.Element;
-  /** VRChat は横長のロックアップなので、正方形の枠に押し込まない */
   isWide?: boolean;
 };
 
-/**
- * About に並べる SNS。メールはここに含めない。
- * 連絡手段は Contact に一本化し、ここは「どこにいるか」だけを見せる。
- */
+/** メールは含めない。連絡手段は Contact に一本化している */
 export const SOCIAL_LINKS: SocialLink[] = [
   { label: "GitHub", href: "https://github.com/nkoji21", icon: BrandGitHub },
   { label: "X", href: "https://x.com/nkoji21", icon: BrandX },

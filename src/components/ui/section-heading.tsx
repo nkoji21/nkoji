@@ -1,7 +1,3 @@
-/**
- * セクションの見出し。日本語の小見出し(eyebrow)と英語の見出しを重ねる。
- * 英語だけだと硬く、日本語だけだとサイト全体の書体設計から外れるため。
- */
 export function SectionHeading({
   eyebrow,
   children,

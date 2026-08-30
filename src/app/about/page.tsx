@@ -10,14 +10,13 @@ export const metadata: Metadata = {
     "デザインが好きなソフトウェアエンジニア。Webを中心にプロダクトをつくっています。",
 };
 
-/** 頼める仕事の単位で書く。使っている技術の一覧は GitHub の README に任せる */
 const SKILLS = [
   "フロントエンドを中心としたWebプロダクト開発",
   "UIデザイン・デザインシステムの設計と実装",
   "UXリサーチからユーザー体験・要件の整理まで",
 ];
 
-/** 重要度順に並べる。時系列ではない */
+/** 重要度順。時系列ではない */
 const ACTIVITIES = [
   {
     name: "Yamada UI",
@@ -44,7 +43,6 @@ export default function AboutPage() {
           Hi, I&apos;m Naoki Kojima.
         </h1>
 
-        {/* 3つの短い文なので、可読幅より「1文が1行に収まる」ことを優先する */}
         <div className="mt-6 flex max-w-200 flex-col gap-4 md:mt-8 md:text-lg">
           <p>デザインが好きなソフトウェアエンジニアです！</p>
           <p>Webを中心に、さまざまなプロダクトをつくっています。</p>
@@ -62,8 +60,6 @@ export default function AboutPage() {
                   key={skill}
                   className="flex gap-2.5 text-sm leading-relaxed md:text-base"
                 >
-                  {/* ドットとテキストで同じ行高を共有し、その中で中央に置く。
-                      固定の margin だと文字サイズが変わったときにずれる */}
                   <span
                     aria-hidden="true"
                     className="flex h-[1lh] shrink-0 items-center"
