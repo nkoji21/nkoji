@@ -1,9 +1,4 @@
-/**
- * サイト共通のフッター。コピーライトだけを置く。
- *
- * ソーシャルへの導線は About と Contact が持っているので、ここには置かない。
- * トップページではこのフッター自体を出さない（削ぎ落とした1枚にするため）。
- */
+/** トップページでは使わない。各ページ側で必要なときだけ置く */
 export function SiteFooter() {
   return (
     <footer className="mx-auto w-full max-w-300 px-5 pt-16 pb-10">

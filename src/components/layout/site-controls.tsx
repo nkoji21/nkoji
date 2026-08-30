@@ -1,9 +1,6 @@
 import { IconSpeakerHigh, IconTranslate } from "@/components/icons";
 
-/**
- * サウンドと言語の切り替え。
- * この PR では見た目だけを置き、実際の切り替えは後続の PR で実装する。
- */
+// TODO: 見た目のみ。切り替えの実装は後続の PR で行う
 export function SiteControls({ className }: { className?: string }) {
   return (
     <div className={`flex items-center gap-4 ${className ?? ""}`}>

@@ -2,10 +2,7 @@ type IconProps = {
   className?: string;
 };
 
-/**
- * UI アイコンは Phosphor Icons (MIT) の Regular を使う。
- * currentColor で塗るので、色は呼び出し側の text-* で決める。
- */
+/** Phosphor Icons (MIT) Regular */
 function Icon({
   className,
   children,
@@ -126,10 +123,7 @@ export function IconEnvelope({ className }: IconProps) {
   );
 }
 
-/**
- * メニューを示すオリジナルの記号。アバターのポーズ(ピースサイン)に由来する。
- * 汎用のハンバーガーだと個性が出ないため独自に描いている。
- */
+/** メニューを示す独自の記号。アバターのピースサインに由来する */
 export function IconPeace({ className }: IconProps) {
   return (
     <svg

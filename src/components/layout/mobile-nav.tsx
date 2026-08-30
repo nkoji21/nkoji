@@ -12,14 +12,8 @@ import {
 import { NAV_ITEMS } from "@/components/layout/nav-items";
 
 /**
- * モバイルのナビゲーション。
- *
- * 画面下部・中央に置く。上部だと片手持ちの親指が届かず、右下だと左利きに
- * 不利なため、左右どちらの手からも等距離になる中央にしている。
- *
- * 設定(サウンド・言語)はパネルの中に畳んでいる。使用頻度が低いものを
- * 常時表示すると、その分だけページ移動の項目が上に押し上げられて
- * 押しづらくなるため。
+ * 下部中央に置くのは、左右どちらの親指からも等距離にするため。
+ * 設定を畳んでいるのは、項目が増えてもページ移動が上に押し上げられないようにするため。
  */
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,8 +21,7 @@ export function MobileNav() {
   const panelId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // パネルの外側を触ったら閉じる。暗転レイヤーは置いていないので、
-  // 背景をタップしたときの挙動は自前で用意する必要がある
+  // 暗転レイヤーを置かない設計なので、外側タップの検知は自前で持つ
   useEffect(() => {
     if (!isOpen) return;
 
