@@ -2,7 +2,7 @@ import { ProtectedImage } from "@/components/ProtectedImage";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-8 px-5 pb-24 md:flex-row md:gap-24 md:pb-12">
+    <div className="flex flex-1 flex-col items-center justify-center gap-8 px-5 pb-24 md:flex-row md:gap-24 md:pb-0">
       <ProtectedImage
         src="/na.webp"
         alt="nkoji"
