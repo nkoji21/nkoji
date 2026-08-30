@@ -1,15 +1,9 @@
-import { ProtectedImage } from "@/components/ProtectedImage";
+import { Avatar } from "@/components/ui/avatar";
 
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-8 px-5 pb-24 md:flex-row md:gap-24 md:pb-0">
-      <ProtectedImage
-        src="/na.webp"
-        alt="nkoji"
-        width={256}
-        height={256}
-        className="anim-pop-in anim-delay-150 size-45 rounded-full md:order-2 md:size-64"
-      />
+      <Avatar className="anim-pop-in anim-delay-150 size-45 md:order-2 md:size-64" />
       <div className="flex flex-col items-center gap-2 md:order-1 md:items-start">
         <h1 className="anim-slide-up anim-delay-300 font-display text-5xl text-foreground md:text-7xl">
           nkoji
