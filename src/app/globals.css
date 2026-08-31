@@ -184,11 +184,11 @@
       border-radius: 0.75rem;
     }
 
-    /* 画像は本文幅いっぱいには広げないので、キャプションも画像に揃える */
+    /* 画像は本文幅いっぱいには広げないので、中央に置く */
     & figure {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       gap: 0.5rem;
     }
 
@@ -196,6 +196,7 @@
       color: var(--color-foreground);
       font-size: 0.75rem;
       line-height: 1.6;
+      text-align: center;
     }
 
     & hr {
