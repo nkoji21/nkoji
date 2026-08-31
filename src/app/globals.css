@@ -98,6 +98,8 @@
     color: var(--color-foreground);
     font-size: 1.0625rem;
     line-height: 2;
+    /* 長文では文節での改行より行末が揃うことを優先する */
+    word-break: normal;
 
     & > * + * {
       margin-top: 1.5rem;
