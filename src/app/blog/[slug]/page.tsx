@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AuthorCard } from "@/components/blog/author-card";
@@ -60,13 +61,15 @@ export default async function BlogPostPage({
 
         <article className="mt-6 flex flex-col">
           <header className="flex flex-col">
-            <div className="flex aspect-[2/1] items-center justify-center overflow-hidden rounded-2xl border border-line bg-surface">
+            <div className="relative flex aspect-[2/1] items-center justify-center overflow-hidden rounded-2xl border border-line bg-surface">
               {meta.image ? (
-                // biome-ignore lint/performance/noImgElement: 記事画像の最適化は後続の PR で行う
-                <img
+                <Image
                   src={meta.image}
                   alt=""
-                  className="size-full object-cover"
+                  fill
+                  priority
+                  sizes="(min-width: 42.5rem) 42.5rem, 100vw"
+                  className="object-cover"
                 />
               ) : (
                 <span className="text-xs">画像</span>

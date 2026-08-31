@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Tag } from "@/components/ui/tag";
 import type { PostMeta } from "@/lib/blog";
@@ -6,17 +7,20 @@ export function formatDate(date: string) {
   return date.replaceAll("-", ".");
 }
 
+/** 3 カラム → 2 カラム → 1 カラムで切り替わる一覧に合わせる */
+const CARD_SIZES = "(min-width: 64rem) 24rem, (min-width: 48rem) 50vw, 100vw";
+
 export function PostCard({ post }: { post: PostMeta }) {
   return (
     <Link href={`/blog/${post.slug}`} className="group flex flex-col gap-3">
-      <div className="flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-surface transition-transform duration-base ease-out group-hover:-translate-y-1">
+      <div className="relative flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-surface transition-transform duration-base ease-out group-hover:-translate-y-1">
         {post.image ? (
-          // biome-ignore lint/performance/noImgElement: 記事画像の最適化は後続の PR で行う
-          <img
+          <Image
             src={post.image}
             alt=""
-            className="size-full object-cover"
-            loading="lazy"
+            fill
+            sizes={CARD_SIZES}
+            className="object-cover"
           />
         ) : (
           <span className="text-xs">画像</span>
