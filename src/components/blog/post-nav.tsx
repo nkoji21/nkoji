@@ -13,11 +13,14 @@ function NavCard({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`flex flex-col gap-2 rounded-2xl border border-line px-5 py-4 transition-colors duration-fast ease-out hover:bg-surface-hover ${
-        align === "end" ? "items-end text-right" : ""
-      }`}
+      className="flex flex-col gap-2 rounded-2xl border border-line px-5 py-4 transition-colors duration-fast ease-out hover:bg-surface-hover"
     >
-      <span className="text-accent text-xs">{label}</span>
+      {/* 見出しだけ端に寄せる。タイトルは左揃えのまま */}
+      <span
+        className={`text-accent text-xs ${align === "end" ? "self-end" : ""}`}
+      >
+        {label}
+      </span>
       <span className="text-foreground-strong text-sm">{post.title}</span>
     </Link>
   );

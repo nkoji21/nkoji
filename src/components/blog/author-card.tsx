@@ -11,7 +11,13 @@ export function AuthorCard() {
       <Avatar className="size-21 shrink-0" />
       <div className="flex flex-col gap-1.5">
         <p className="font-bold text-accent">{SITE_AUTHOR.name}</p>
-        <p className="text-sm">{SITE_AUTHOR.bio}</p>
+        <p className="text-sm">
+          {SITE_AUTHOR.bio.map((line) => (
+            <span key={line} className="block">
+              {line}
+            </span>
+          ))}
+        </p>
       </div>
     </Link>
   );
