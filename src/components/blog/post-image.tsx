@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { IconX } from "@/components/icons";
 
 /** 本文の幅いっぱいには広げず、読みやすい大きさに抑える */
 const MAX_WIDTH = 420;
@@ -71,7 +72,7 @@ export function PostImage({
         <dialog
           open
           aria-label={alt || "拡大画像"}
-          className="fixed inset-0 z-50 flex size-full max-h-full max-w-full items-center justify-center bg-black/80 p-5 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex size-full max-h-full max-w-full items-center justify-center bg-background/95 p-4"
         >
           {/* 画像の外どこを押しても閉じる。Escape でも閉じられる */}
           <button
@@ -86,8 +87,16 @@ export function PostImage({
             width={width}
             height={height}
             sizes="100vw"
-            className="pointer-events-none relative max-h-full w-auto rounded-xl object-contain"
+            className="pointer-events-none relative max-h-full w-auto object-contain"
           />
+          <button
+            type="button"
+            onClick={() => setZoomed(false)}
+            aria-label="閉じる"
+            className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full bg-surface text-foreground-strong transition-colors duration-fast ease-out hover:bg-surface-hover"
+          >
+            <IconX className="size-4.5" />
+          </button>
         </dialog>
       )}
     </>
