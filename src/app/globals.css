@@ -98,6 +98,8 @@
     color: var(--color-foreground);
     font-size: 1.0625rem;
     line-height: 2;
+    /* 長文では文節での改行より行末が揃うことを優先する */
+    word-break: normal;
 
     & > * + * {
       margin-top: 1.5rem;
@@ -184,8 +186,28 @@
       border-radius: 0.75rem;
     }
 
+    /* 画像は本文幅いっぱいには広げないので、中央に置く */
+    & figure {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    & figcaption {
+      color: var(--color-foreground);
+      font-size: 0.75rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
     & hr {
       border-color: var(--color-line);
+    }
+
+    /* X の埋め込みは iframe に margin が直接入るので上書きする */
+    & .twitter-tweet {
+      margin-inline: auto;
     }
   }
 }

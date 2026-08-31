@@ -37,11 +37,14 @@ async function readPost(fileName: string): Promise<RawPost> {
   return { slug, frontmatter: parsed.data, body: content };
 }
 
+/** 記事ではない .md（README など）を記事として読まない */
+function isPostFile(fileName: string) {
+  return fileName.endsWith(".md") && !fileName.startsWith("_");
+}
+
 async function readAllPosts(): Promise<RawPost[]> {
   const entries = await readdir(CONTENT_DIR).catch(() => []);
-  const posts = await Promise.all(
-    entries.filter((f) => f.endsWith(".md")).map(readPost),
-  );
+  const posts = await Promise.all(entries.filter(isPostFile).map(readPost));
 
   return posts
     .filter(
