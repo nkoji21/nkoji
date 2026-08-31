@@ -61,3 +61,14 @@ https://x.com/nkoji21/status/xxxx
 ```
 
 `_links.json` に無い URL はふつうのリンクのまま表示される。
+
+## 画像
+
+`public/blog/<slug>/` に置いて、ふつうの Markdown 記法で参照する。
+
+```md
+![キャプション](/blog/<slug>/xxx.webp)
+```
+
+alt がそのままキャプションとして画像の下に出る。
+画像サイズはビルド時にファイルから読むので、記事側に書かなくてよい。
