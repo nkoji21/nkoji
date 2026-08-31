@@ -1,8 +1,10 @@
 export function SectionHeading({
   eyebrow,
+  as: Heading = "h2",
   children,
 }: {
   eyebrow: string;
+  as?: "h1" | "h2";
   children: React.ReactNode;
 }) {
   return (
@@ -10,9 +12,9 @@ export function SectionHeading({
       <p className="font-bold text-accent text-xs tracking-[0.16em]">
         {eyebrow}
       </p>
-      <h2 className="font-display text-2xl text-foreground-strong">
+      <Heading className="font-display text-2xl text-foreground-strong">
         {children}
-      </h2>
+      </Heading>
     </div>
   );
 }
