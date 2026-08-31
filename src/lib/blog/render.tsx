@@ -3,6 +3,7 @@ import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
+import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
@@ -15,6 +16,8 @@ export async function renderMarkdown(body: string) {
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
+    // note から移してきた記事は改行が意図的なので保つ
+    .use(remarkBreaks)
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeExtractToc, toc)
