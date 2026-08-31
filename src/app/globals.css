@@ -202,5 +202,10 @@
     & hr {
       border-color: var(--color-line);
     }
+
+    /* X の埋め込みは iframe に margin が直接入るので上書きする */
+    & .twitter-tweet {
+      margin-inline: auto;
+    }
   }
 }
