@@ -11,17 +11,14 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       <p className="font-bold text-accent text-xs tracking-[0.16em]">もくじ</p>
       <ul className="flex flex-col gap-1">
         {items.map((item) => (
-          <li
-            key={item.id}
-            className={item.depth === 3 ? "pl-5 text-xs" : "text-sm"}
-          >
+          <li key={item.id} className="text-sm">
             <a
               href={`#${item.id}`}
               className="flex items-center gap-2.5 text-accent hover:underline"
             >
               <span
                 aria-hidden="true"
-                className={`shrink-0 rounded-full bg-accent ${item.depth === 3 ? "size-1" : "size-1.25"}`}
+                className="size-1.25 shrink-0 rounded-full bg-accent"
               />
               {item.text}
             </a>
