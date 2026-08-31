@@ -3,6 +3,7 @@ title: 人生で最も濃かった1ヶ月間のお話
 date: 2025-03-14
 topic: 42Tokyo
 draft: false
+image: /blog/42tokyo-piscine/cover.webp
 ---
 
 こんにちは!!
