@@ -9,7 +9,10 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { LinkCard } from "@/components/blog/link-card";
+import { PostImage } from "@/components/blog/post-image";
 import { rehypeExtractToc, type TocItem } from "./rehype-extract-toc";
+import { rehypeFigure } from "./rehype-figure";
+import { rehypeImageSize } from "./rehype-image-size";
 import { type LinkCardMap, remarkLinkCard } from "./remark-link-card";
 
 export async function renderMarkdown(body: string, links: LinkCardMap = {}) {
@@ -24,6 +27,8 @@ export async function renderMarkdown(body: string, links: LinkCardMap = {}) {
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeExtractToc, toc)
+    .use(rehypeImageSize)
+    .use(rehypeFigure)
     .use(rehypePrettyCode, {
       theme: "github-dark-dimmed",
       // 背景はサイトのトークン（--color-code-surface）に合わせる
@@ -36,7 +41,7 @@ export async function renderMarkdown(body: string, links: LinkCardMap = {}) {
     Fragment,
     jsx,
     jsxs,
-    components: { "link-card": LinkCard } as never,
+    components: { "link-card": LinkCard, img: PostImage } as never,
   });
 
   return { content, toc };
