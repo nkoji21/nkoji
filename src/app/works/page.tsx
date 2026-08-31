@@ -56,7 +56,9 @@ export default function WorksPage() {
   return (
     <>
       <div className="mx-auto w-full max-w-300 flex-1 px-5 pt-10 md:pt-16">
-        <SectionHeading eyebrow="やってきたこと">Works</SectionHeading>
+        <SectionHeading as="h1" eyebrow="やってきたこと">
+          Works
+        </SectionHeading>
 
         <ul className="mt-8 md:mt-10">
           {WORKS.map(({ period, role, isOngoing, title, body, tags }) => (

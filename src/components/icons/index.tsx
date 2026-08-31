@@ -142,3 +142,27 @@ export function IconPeace({ className }: IconProps) {
     </svg>
   );
 }
+
+export function IconMagnifyingGlass({ className }: IconProps) {
+  return (
+    <Icon className={className}>
+      <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z" />
+    </Icon>
+  );
+}
+
+export function IconCheck({ className }: IconProps) {
+  return (
+    <Icon className={className}>
+      <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z" />
+    </Icon>
+  );
+}
+
+export function IconArrowLeft({ className }: IconProps) {
+  return (
+    <Icon className={className}>
+      <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z" />
+    </Icon>
+  );
+}
