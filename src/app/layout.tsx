@@ -3,6 +3,7 @@ import { Titan_One, Zen_Kaku_Gothic_New } from "next/font/google";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SiteHeader } from "@/components/layout/site-header";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 
 const zenKaku = Zen_Kaku_Gothic_New({
   weight: ["400", "700"],
@@ -19,6 +20,7 @@ const titanOne = Titan_One({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "nkoji",
   description: "nkoji's website",
   icons: {
