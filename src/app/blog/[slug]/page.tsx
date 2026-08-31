@@ -10,7 +10,7 @@ import { TableOfContents } from "@/components/blog/table-of-contents";
 import { IconArrowLeft } from "@/components/icons";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Tag } from "@/components/ui/tag";
-import { getAllPostMeta, getPost } from "@/lib/blog";
+import { getAllPostMeta, getLinkCards, getPost } from "@/lib/blog";
 import { renderMarkdown } from "@/lib/blog/render";
 import { CONTENT_REPO_EDIT_BASE } from "@/lib/site";
 
@@ -45,7 +45,10 @@ export default async function BlogPostPage({
   const post = await getPost(slug);
   if (!post) notFound();
 
-  const { content, toc } = await renderMarkdown(post.body);
+  const { content, toc } = await renderMarkdown(
+    post.body,
+    await getLinkCards(),
+  );
   const { meta } = post;
 
   return (

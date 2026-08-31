@@ -28,3 +28,36 @@ image: /blog/<slug>/cover.webp
 もくじには `h2`（`##`）だけが載る。
 `h3` 以下は本文の構造として使ってよいが、もくじには出ない。
 節が多い記事でもくじが本文の写しにならないようにするため。
+
+## リンクカード
+
+1行に URL だけを書くとカードになる。
+
+```md
+本文…
+
+https://x.com/nkoji21/status/xxxx
+
+本文…
+```
+
+カードの中身は `_links.json` に URL をキーとして書く。実行時に取得しないので、
+リンク先が消えても記事から内容が欠けない。
+
+```json
+{
+  "https://x.com/...": {
+    "quote": "投稿の本文",
+    "author": { "name": "えぬこじ", "handle": "nkoji21" },
+    "date": "2025年3月8日"
+  },
+  "https://example.com/": {
+    "title": "ページのタイトル",
+    "description": "説明",
+    "site": "example.com",
+    "image": "/blog/<slug>/xxx.webp"
+  }
+}
+```
+
+`_links.json` に無い URL はふつうのリンクのまま表示される。

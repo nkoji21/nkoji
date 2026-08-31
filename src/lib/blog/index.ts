@@ -1,6 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
+import type { LinkCardMap } from "./remark-link-card";
 import { type Frontmatter, frontmatterSchema, type PostMeta } from "./schema";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "blog");
@@ -69,6 +70,16 @@ export async function getPost(slug: string) {
     newer: posts[index - 1] ? toMeta(posts[index - 1]) : null,
     older: posts[index + 1] ? toMeta(posts[index + 1]) : null,
   };
+}
+
+/** リンクカードの内容。実行時に取得せず、リポジトリに持つ */
+export async function getLinkCards(): Promise<LinkCardMap> {
+  const file = await readFile(
+    path.join(CONTENT_DIR, "_links.json"),
+    "utf8",
+  ).catch(() => null);
+
+  return file ? JSON.parse(file) : {};
 }
 
 export type { PostMeta, Frontmatter };

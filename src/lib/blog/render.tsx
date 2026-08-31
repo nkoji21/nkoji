@@ -8,9 +8,11 @@ import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
+import { LinkCard } from "@/components/blog/link-card";
 import { rehypeExtractToc, type TocItem } from "./rehype-extract-toc";
+import { type LinkCardMap, remarkLinkCard } from "./remark-link-card";
 
-export async function renderMarkdown(body: string) {
+export async function renderMarkdown(body: string, links: LinkCardMap = {}) {
   const toc: TocItem[] = [];
 
   const processor = unified()
@@ -18,6 +20,7 @@ export async function renderMarkdown(body: string) {
     .use(remarkGfm)
     // note から移してきた記事は改行が意図的なので保つ
     .use(remarkBreaks)
+    .use(remarkLinkCard, links)
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeExtractToc, toc)
@@ -29,7 +32,12 @@ export async function renderMarkdown(body: string) {
     });
 
   const tree = (await processor.run(processor.parse(body))) as Root;
-  const content = toJsxRuntime(tree, { Fragment, jsx, jsxs });
+  const content = toJsxRuntime(tree, {
+    Fragment,
+    jsx,
+    jsxs,
+    components: { "link-card": LinkCard } as never,
+  });
 
   return { content, toc };
 }
