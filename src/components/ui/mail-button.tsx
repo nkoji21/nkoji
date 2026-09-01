@@ -1,6 +1,7 @@
 "use client";
 
 import { IconEnvelope } from "@/components/icons";
+import { playSound } from "@/lib/sound";
 
 /**
  * アドレスを静的な HTML に残さないため、クリック時に組み立てる。
@@ -14,6 +15,7 @@ export function MailButton() {
     <button
       type="button"
       onClick={() => {
+        playSound("click");
         window.location.href = `mailto:${USER}@${DOMAIN}`;
       }}
       className="inline-flex w-full items-center justify-center gap-3.5 rounded-xl bg-accent py-4 font-bold text-on-accent transition-[background-color,transform] duration-fast ease-out hover:-translate-y-0.5 hover:bg-accent-hover active:translate-y-0 active:scale-97"

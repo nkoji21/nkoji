@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { IconCaretDown, IconCheck } from "@/components/icons";
+import { playSound } from "@/lib/sound";
 
 export type DropdownOption = {
   value: string;
@@ -50,7 +51,10 @@ export function Dropdown({
     <div ref={rootRef} className={`relative ${className ?? ""}`}>
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          playSound("click");
+          setOpen((v) => !v);
+        }}
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
         aria-label={label}
@@ -74,6 +78,7 @@ export function Dropdown({
                 <button
                   type="button"
                   onClick={() => {
+                    playSound("click");
                     onChange(option.value);
                     setOpen(false);
                   }}
