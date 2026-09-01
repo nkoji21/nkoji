@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { M_PLUS_1, Titan_One } from "next/font/google";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SiteHeader } from "@/components/layout/site-header";
+import { LeaveReset } from "@/components/ui/leave-reset";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 
@@ -61,6 +62,7 @@ export default function RootLayout({
           <SiteHeader />
         </div>
         <main className="flex flex-1 flex-col">{children}</main>
+        <LeaveReset />
         <MobileNav />
       </body>
     </html>
