@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Titan_One, Zen_Kaku_Gothic_New } from "next/font/google";
+import { M_PLUS_1, Titan_One } from "next/font/google";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SiteHeader } from "@/components/layout/site-header";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 
-const zenKaku = Zen_Kaku_Gothic_New({
-  weight: ["400", "700"],
+const mplus = M_PLUS_1({
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-zen-kaku",
+  variable: "--font-mplus",
 });
 
 const titanOne = Titan_One({
@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${zenKaku.variable} ${titanOne.variable} flex min-h-dvh flex-col antialiased`}
+        className={`${mplus.variable} ${titanOne.variable} flex min-h-dvh flex-col`}
       >
         <div className="pt-12">
           <SiteHeader />

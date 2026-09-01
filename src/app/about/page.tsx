@@ -35,7 +35,7 @@ const ACTIVITIES = [
   },
   {
     name: "InTech",
-    role: "Founder · 2024.08–",
+    role: "Founder · 2024.08 – 2025.04",
     href: "https://intech-site.vercel.app/",
   },
 ];
