@@ -50,7 +50,7 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <div className="mx-auto flex w-full max-w-170 flex-1 flex-col px-5 pt-10">
+      <div className="mx-auto flex w-full max-w-170 flex-1 flex-col px-5 pt-12">
         <Link
           href="/blog"
           className="-mx-3.5 inline-flex items-center gap-2 self-start rounded-xl px-3.5 py-2.5 text-accent text-sm transition-colors duration-fast ease-out hover:bg-background-hover"

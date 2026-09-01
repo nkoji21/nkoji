@@ -166,7 +166,7 @@ function groupByYear(items: typeof ACTIVITIES) {
 export default function ActivityPage() {
   return (
     <>
-      <div className="mx-auto w-full max-w-190 flex-1 px-5 pt-10 md:pt-14">
+      <div className="mx-auto w-full max-w-190 flex-1 px-5 pt-10 md:pt-16">
         <SectionHeading as="h1" eyebrow="やってきたこと">
           Activity
         </SectionHeading>

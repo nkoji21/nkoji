@@ -14,7 +14,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <div className="mx-auto flex w-full max-w-300 flex-1 flex-col gap-10 px-5 pt-10">
+      <div className="mx-auto flex w-full max-w-300 flex-1 flex-col gap-10 px-5 pt-12">
         <SectionHeading as="h1" eyebrow="かんがえたこと">
           Blog
         </SectionHeading>
