@@ -9,22 +9,24 @@ export const metadata: Metadata = {
   description: "業務委託・インターンで携わったプロダクト開発。",
 };
 
-/** 社名とプロダクト名は出さない（契約上の制約） */
+/** プロダクト名は出さない（契約で委託業務として特定されているため） */
 const WORKS = [
   {
     period: "2026.06 –",
-    role: "業務委託 · フロントエンド",
+    company: "株式会社Autest",
+    role: "業務委託 · ソフトウェアエンジニア",
     isOngoing: true,
     title: "テスト自動化プロダクトの立ち上げ開発",
-    body: "立ち上げ初期の開発に参加。抽象度の高いタスクを要件・前提・ユーザー体験から整理して具体化し、仕様を批判的に検討しながら実装しています。非同期チームでの情報共有の仕組みづくりにも取り組んでいます。",
+    body: "立ち上げ初期のプロダクト開発に参加。抽象度の高いタスクを要件と前提から整理し、仕様そのものを検討したうえで実装しています。非同期で進むチームなので、決定の経緯が後から追える形で残すことも意識しています。",
     tags: ["TypeScript", "Next.js"],
   },
   {
     period: "2026.02 –",
+    company: "株式会社StepAI",
     role: "業務委託 · フロントエンド / デザイン",
     isOngoing: true,
     title: "音声AIプロダクトのフロントエンド開発",
-    body: "Next.js・TypeScript でフロントエンド全体を設計・実装。デジタル庁デザインシステムや shadcn/ui を参考に Figma でデザインシステムを構築し、UXリサーチ、CI/CD 整備まで担当しています。",
+    body: "Next.js と TypeScript でフロントエンド全体を設計・実装しています。Figma でデザインシステムを構築し、Lean Canvas や Jobs To Be Done を使った UX リサーチ、CI/CD の整備まで担当しました。",
     tags: ["TypeScript", "Next.js", "Figma", "GitHub Actions"],
   },
   {
@@ -32,7 +34,7 @@ const WORKS = [
     role: "受託 · グラフィックデザイン",
     isOngoing: false,
     title: "麻雀アプリの OGP 画像デザイン",
-    body: "対局結果を SNS シェアするための OGP 画像をデザイン。縮小表示でも順位とスコアが一目で伝わるよう、順位ごとの配色と情報の階層を設計しました。",
+    body: "対局結果を SNS でシェアするための OGP 画像をデザイン。タイムラインの小さな表示でも順位とスコアが一目で分かるよう、順位ごとに配色を変えて情報に強弱をつけました。",
     tags: ["Figma"],
     image: {
       src: "/works/mahjong-ogp.webp",
@@ -41,18 +43,20 @@ const WORKS = [
   },
   {
     period: "2025.10 – 2026.02",
+    company: "燈株式会社",
     role: "インターン · バックエンド",
     isOngoing: false,
-    title: "BtoB向け LLM チャットアプリケーション",
-    body: "建築業界の DX を目的とした LLM チャットアプリのバックエンドを担当。Go / Python による API 設計・実装と、表形式データをエージェントが効率的に扱う仕組みを開発しました。",
+    title: "建築業界向け LLM チャットアプリケーション",
+    body: "BtoB 向け LLM チャットアプリのバックエンドを担当。Go と Python で API を設計・実装し、表形式のデータをエージェントが扱いやすい形に整える仕組みをつくりました。",
     tags: ["Go", "Python"],
   },
   {
     period: "2025.03 – 2025.10",
+    company: "株式会社オスリー",
     role: "インターン · フロントエンド",
     isOngoing: false,
     title: "CtoC マッチングアプリ",
-    body: "React によるフロントエンド開発を担当。楽観的更新など、操作後の待ち時間や違和感を減らすインタラクションの実装と、ユーザー行動分析に基づく改善に取り組みました。",
+    body: "React でフロントエンド開発を担当。楽観的更新などで操作後の待ち時間をなくし、ユーザーの行動ログを見ながら改善を重ねました。",
     tags: ["React", "TypeScript"],
   },
 ];
@@ -67,7 +71,16 @@ export default function WorksPage() {
 
         <ul className="mt-8 md:mt-10">
           {WORKS.map(
-            ({ period, role, isOngoing, title, body, tags, image }) => (
+            ({
+              period,
+              company,
+              role,
+              isOngoing,
+              title,
+              body,
+              tags,
+              image,
+            }) => (
               <li
                 key={title}
                 className="border-line border-t py-8 first:border-t-0 first:pt-0 md:grid md:grid-cols-[15rem_1fr] md:gap-12 md:py-9"
@@ -83,7 +96,10 @@ export default function WorksPage() {
                       </span>
                     ) : null}
                   </div>
-                  <span className="text-xs">{role}</span>
+                  <span className="text-xs">
+                    {company ? `${company} · ` : ""}
+                    {role}
+                  </span>
                 </div>
 
                 <div className="mt-3 flex flex-col gap-3 md:mt-0">
