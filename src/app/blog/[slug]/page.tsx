@@ -27,14 +27,20 @@ export async function generateMetadata({
   if (!post) return {};
 
   const { description } = post.meta;
+  const path = `/blog/${post.meta.slug}`;
 
   return {
     title: post.meta.title,
     // 未設定ならルートの説明文が継承される
     ...(description && { description }),
+    // ルートの "/" を記事ごとの URL で上書きする
+    alternates: {
+      canonical: path,
+    },
     openGraph: {
       title: post.meta.title,
       ...(description && { description }),
+      url: path,
       type: "article",
       publishedTime: post.meta.date,
     },
