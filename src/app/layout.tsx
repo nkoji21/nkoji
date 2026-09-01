@@ -6,7 +6,7 @@ import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 
 const mplus = M_PLUS_1({
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "700", "800"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-mplus",
