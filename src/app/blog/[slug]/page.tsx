@@ -33,6 +33,11 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.meta.date,
     },
+    // 記事の OGP は横長なので、正方形前提で summary にしている
+    // ルートの設定をここで戻す
+    twitter: {
+      card: "summary_large_image",
+    },
   };
 }
 
