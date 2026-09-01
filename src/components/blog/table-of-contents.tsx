@@ -11,13 +11,14 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
   if (items.length === 0) return null;
 
   return (
-    <nav aria-label="もくじ" className="rounded-2xl bg-surface px-6 py-5">
+    <nav aria-label="もくじ" className="overflow-hidden rounded-2xl bg-surface">
+      {/* 見出しの行すべてを押せるようにする */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls={listId}
-        className="group flex items-center gap-1.5"
+        className={`group flex w-full items-center gap-1.5 px-6 pt-5 ${open ? "pb-2" : "pb-5"}`}
       >
         <IconCaretDown
           className={`size-4 shrink-0 text-accent transition-[transform,color] duration-fast ease-out group-hover:text-accent-hover ${open ? "" : "-rotate-90"}`}
@@ -28,7 +29,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       </button>
 
       {open ? (
-        <ul id={listId} className="mt-3 flex flex-col gap-1">
+        <ul id={listId} className="flex flex-col gap-1 px-6 pb-5">
           {items.map((item) => (
             <li key={item.id} className="text-sm">
               <a
