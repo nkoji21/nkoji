@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { BrandDiscord, BrandX } from "@/components/icons/brand";
-import { SiteFooter } from "@/components/layout/site-footer";
 import { Avatar } from "@/components/ui/avatar";
 import { MailButton } from "@/components/ui/mail-button";
 
@@ -20,36 +19,33 @@ const DM_CHANNELS = [
 
 export default function ContactPage() {
   return (
-    <>
-      <div className="flex flex-1 flex-col items-center justify-center gap-9 px-5 py-16">
-        <Avatar className="size-37 md:size-63" />
+    <div className="flex flex-1 flex-col items-center justify-center gap-9 px-5 py-16">
+      <Avatar className="size-37 md:size-63" />
 
-        <div className="flex flex-col items-center gap-5">
-          <div className="w-63">
-            <MailButton />
-          </div>
+      <div className="flex flex-col items-center gap-5">
+        <div className="w-63">
+          <MailButton />
+        </div>
 
-          <div className="flex w-63 flex-col items-center gap-4">
-            <p className="text-xs">DM でも受け付けています</p>
-            <ul className="flex w-full gap-3">
-              {DM_CHANNELS.map(({ label, href, icon: Icon }) => (
-                <li key={label} className="flex-1">
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-11 items-center justify-center gap-2 rounded-xl border border-line transition-colors duration-fast ease-out hover:bg-surface-hover"
-                  >
-                    <Icon className="size-4.5" />
-                    <span className="text-sm">{label}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="flex w-63 flex-col items-center gap-4">
+          <p className="text-xs">DM でも受け付けています</p>
+          <ul className="flex w-full gap-3">
+            {DM_CHANNELS.map(({ label, href, icon: Icon }) => (
+              <li key={label} className="flex-1">
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-11 items-center justify-center gap-2 rounded-xl border border-line transition-colors duration-fast ease-out hover:bg-surface-hover"
+                >
+                  <Icon className="size-4.5" />
+                  <span className="text-sm">{label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-      <SiteFooter />
-    </>
+    </div>
   );
 }

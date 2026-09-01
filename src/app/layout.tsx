@@ -25,10 +25,15 @@ export const metadata: Metadata = {
     default: "nkoji",
     template: "%s / nkoji",
   },
-  description: "nkoji's website",
+  description: "Personal website of nkoji.",
   icons: {
     icon: "/icon.png",
     apple: "/apple-icon.png",
+  },
+  // OGP はアイコンそのものなので正方形。X では小さいサムネイルと
+  // テキストが並ぶ summary で出したい（既定の large_image だと余白が出る）
+  twitter: {
+    card: "summary",
   },
 };
 
@@ -42,7 +47,7 @@ export default function RootLayout({
     <html lang="ja" className={`${mplus.variable} ${titanOne.variable}`}>
       <body className="flex min-h-dvh flex-col">
         {/* ヘッダーはモバイルでは出さないので、余白ごと隠す */}
-        <div className="hidden pt-12 md:block">
+        <div className="sticky top-0 z-40 hidden bg-background/80 py-4 backdrop-blur-md md:block">
           <SiteHeader />
         </div>
         <main className="flex flex-1 flex-col">{children}</main>

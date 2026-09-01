@@ -54,11 +54,7 @@ export function Dropdown({
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
         aria-label={label}
-        className={`flex h-11.5 w-full items-center justify-between gap-2.5 rounded-xl bg-surface pr-3.5 pl-4 text-left text-sm transition-colors duration-fast ease-out ${
-          open
-            ? "border-1.5 border-accent text-foreground-strong"
-            : "border border-line hover:bg-surface-hover"
-        }`}
+        className="flex h-11.5 w-full items-center justify-between gap-2.5 rounded-xl border border-line bg-surface pr-3.5 pl-4 text-left text-sm transition-colors duration-fast ease-out hover:bg-surface-hover"
       >
         <span className="truncate">{selected?.label}</span>
         <IconCaretDown
