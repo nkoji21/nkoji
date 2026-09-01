@@ -17,7 +17,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls={listId}
-        className="flex w-full items-center justify-between gap-2"
+        className="-mx-2 flex items-center gap-1.5 rounded-lg px-2 py-1 transition-colors duration-fast ease-out hover:bg-surface-hover"
       >
         <span className="font-bold text-accent text-xs tracking-[0.16em]">
           もくじ
