@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { IconArrowUpRight } from "@/components/icons";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Tag } from "@/components/ui/tag";
@@ -14,6 +15,7 @@ const WORKS = [
   {
     period: "2026.06 –",
     company: "株式会社Autest",
+    companyHref: "https://www.autest.co.jp/",
     role: "業務委託 · ソフトウェアエンジニア",
     isOngoing: true,
     title: "テスト自動化プロダクトの立ち上げ開発",
@@ -23,6 +25,7 @@ const WORKS = [
   {
     period: "2026.02 –",
     company: "株式会社StepAI",
+    companyHref: "https://www.stepai.co.jp/",
     role: "業務委託 · フロントエンド / デザイン",
     isOngoing: true,
     title: "音声AIプロダクトのフロントエンド開発",
@@ -31,7 +34,8 @@ const WORKS = [
   },
   {
     period: "2025.12",
-    role: "受託 · グラフィックデザイン",
+    company: "個人からの受託",
+    role: "グラフィックデザイン",
     isOngoing: false,
     title: "麻雀アプリの OGP 画像デザイン",
     body: "対局結果を SNS でシェアするための OGP 画像をデザイン。タイムラインの小さな表示でも順位とスコアが一目で分かるよう、順位ごとに配色を変えて情報に強弱をつけました。",
@@ -44,6 +48,7 @@ const WORKS = [
   {
     period: "2025.10 – 2026.02",
     company: "燈株式会社",
+    companyHref: "https://akariinc.co.jp/",
     role: "インターン · バックエンド",
     isOngoing: false,
     title: "建築業界向け LLM チャットアプリケーション",
@@ -53,6 +58,7 @@ const WORKS = [
   {
     period: "2025.03 – 2025.10",
     company: "株式会社オスリー",
+    companyHref: "https://osuly.jp/",
     role: "インターン · フロントエンド",
     isOngoing: false,
     title: "CtoC マッチングアプリ",
@@ -62,15 +68,17 @@ const WORKS = [
   {
     period: "2024.08 – 2025.06",
     company: "チームラボエンジニアリング",
+    companyHref: "https://www.team-lab.com/",
     role: "アルバイト · ソリューションカタリスト",
     isOngoing: false,
-    title: "エンジニアチームの業務効率化と現地リサーチ",
-    body: "GAS で定型作業を自動化してエンジニアの手を空けたり、案件の前段として現地に足を運びインタビューをしたりしていました。コードを書く以外にもプロジェクトが前に進まなくなる理由があることを知った時期です。",
-    tags: ["GAS"],
+    title: "ソリューションカタリストの補佐",
+    body: "競合サービスのリサーチや提案資料の作成、Figma でのワイヤーフレーム制作を担当。現地に足を運んでのインタビューや、GAS での定型作業の自動化もしていました。コードを書く以外にもプロジェクトが前に進まなくなる理由があることを知った時期です。",
+    tags: ["Figma", "GAS"],
   },
   {
     period: "2023.12 – 2024.06",
     company: "株式会社ウフル",
+    companyHref: "https://uhuru.co.jp/",
     role: "インターン · フロントエンド",
     isOngoing: false,
     title: "DX プロダクトの 0→1 開発",
@@ -80,6 +88,7 @@ const WORKS = [
   {
     period: "2023.08 – 2023.10",
     company: "株式会社メディロム",
+    companyHref: "https://medirom.co.jp/",
     role: "インターン · Web開発",
     isOngoing: false,
     title: "はじめてのインターン",
@@ -91,49 +100,81 @@ const WORKS = [
 export default function WorksPage() {
   return (
     <>
-      <div className="mx-auto w-full max-w-300 flex-1 px-5 pt-10 md:pt-16">
+      <div className="mx-auto w-full max-w-190 flex-1 px-5 pt-10 md:pt-16">
         <SectionHeading as="h1" eyebrow="やってきたこと">
           Works
         </SectionHeading>
 
         <ul className="mt-8 md:mt-10">
           {WORKS.map(
-            ({
-              period,
-              company,
-              role,
-              isOngoing,
-              title,
-              body,
-              tags,
-              image,
-            }) => (
-              <li
-                key={title}
-                className="border-line border-t py-8 first:border-t-0 first:pt-0 md:grid md:grid-cols-[15rem_1fr] md:gap-12 md:py-9"
-              >
-                <div className="flex flex-col gap-1.5">
+            (
+              {
+                period,
+                company,
+                companyHref,
+                role,
+                isOngoing,
+                title,
+                body,
+                tags,
+                image,
+              },
+              index,
+            ) => (
+              <li key={title} className="flex gap-5">
+                {/* 左のレール。ドットの位置は日付行の中心に合わせる */}
+                <div
+                  aria-hidden="true"
+                  className="relative flex w-2 shrink-0 justify-center"
+                >
+                  <span
+                    className={`absolute top-2 size-2.5 rounded-full ${
+                      isOngoing
+                        ? "bg-accent"
+                        : "border-2 border-line bg-background"
+                    }`}
+                  />
+                  {index < WORKS.length - 1 ? (
+                    <span className="absolute top-6.5 bottom-0 w-px bg-line" />
+                  ) : null}
+                </div>
+
+                <div
+                  className={`flex flex-col gap-2 ${index === WORKS.length - 1 ? "" : "pb-10"}`}
+                >
                   <div className="flex items-center gap-2.5">
-                    <span className="text-foreground-strong text-sm">
+                    <span className="font-bold text-accent text-xs">
                       {period}
                     </span>
                     {isOngoing ? (
-                      <span className="rounded-xl bg-accent px-2.5 py-0.5 text-on-accent text-xs">
+                      <span className="rounded-xl bg-accent px-2 py-0.5 text-on-accent text-xs">
                         継続中
                       </span>
                     ) : null}
                   </div>
-                  <span className="text-xs">
-                    {company ? `${company} · ` : ""}
-                    {role}
-                  </span>
-                </div>
 
-                <div className="mt-3 flex flex-col gap-3 md:mt-0">
-                  <h2 className="font-bold text-foreground-strong md:text-lg">
+                  {companyHref ? (
+                    <a
+                      href={companyHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-1.5 self-start font-bold text-foreground-strong text-lg md:text-xl"
+                    >
+                      {company}
+                      <IconArrowUpRight className="size-3.5 text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </a>
+                  ) : (
+                    <p className="font-bold text-foreground-strong text-lg md:text-xl">
+                      {company}
+                    </p>
+                  )}
+
+                  <p className="text-xs">{role}</p>
+                  <p className="font-bold text-foreground-strong text-sm">
                     {title}
-                  </h2>
+                  </p>
                   <p className="text-sm leading-relaxed">{body}</p>
+
                   {tags.length > 0 ? (
                     <ul className="flex flex-wrap gap-2">
                       {tags.map((tag) => (
@@ -143,6 +184,7 @@ export default function WorksPage() {
                       ))}
                     </ul>
                   ) : null}
+
                   {image ? (
                     <Image
                       src={image.src}
