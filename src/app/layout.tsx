@@ -41,7 +41,8 @@ export default function RootLayout({
     // フォント変数は html に置く。Tailwind の preflight が html で参照するため
     <html lang="ja" className={`${mplus.variable} ${titanOne.variable}`}>
       <body className="flex min-h-dvh flex-col">
-        <div className="pt-12">
+        {/* ヘッダーはモバイルでは出さないので、余白ごと隠す */}
+        <div className="hidden pt-12 md:block">
           <SiteHeader />
         </div>
         <main className="flex flex-1 flex-col">{children}</main>

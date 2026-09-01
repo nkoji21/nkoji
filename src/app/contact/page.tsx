@@ -25,18 +25,20 @@ export default function ContactPage() {
         <Avatar className="size-37 md:size-63" />
 
         <div className="flex flex-col items-center gap-5">
-          <MailButton />
+          <div className="w-63">
+            <MailButton />
+          </div>
 
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex w-63 flex-col items-center gap-4">
             <p className="text-xs">DM でも受け付けています</p>
-            <ul className="flex gap-3">
+            <ul className="flex w-full gap-3">
               {DM_CHANNELS.map(({ label, href, icon: Icon }) => (
-                <li key={label}>
+                <li key={label} className="flex-1">
                   <a
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-11 w-28 items-center justify-center gap-2 rounded-xl border border-line transition-colors duration-fast ease-out hover:bg-surface-hover"
+                    className="flex h-11 items-center justify-center gap-2 rounded-xl border border-line transition-colors duration-fast ease-out hover:bg-surface-hover"
                   >
                     <Icon className="size-4.5" />
                     <span className="text-sm">{label}</span>

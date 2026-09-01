@@ -14,7 +14,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
           <li key={item.id} className="text-sm">
             <a
               href={`#${item.id}`}
-              className="flex items-center gap-2.5 text-accent hover:underline"
+              className="-mx-2 flex items-center gap-2.5 rounded-lg px-2 py-1 text-accent transition-colors duration-fast ease-out hover:bg-surface-hover"
             >
               <span
                 aria-hidden="true"

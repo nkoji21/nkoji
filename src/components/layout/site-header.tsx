@@ -4,7 +4,7 @@ import { SiteControls } from "@/components/layout/site-controls";
 
 export function SiteHeader() {
   return (
-    <header className="mx-auto hidden w-full max-w-300 items-center justify-between px-5 md:flex">
+    <header className="mx-auto flex w-full max-w-300 items-center justify-between px-5">
       <nav>
         <ul className="-mx-3.5 flex items-center gap-1">
           {NAV_ITEMS.map(({ href, label }) => (

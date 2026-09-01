@@ -16,7 +16,7 @@ export function MailButton() {
       onClick={() => {
         window.location.href = `mailto:${USER}@${DOMAIN}`;
       }}
-      className="inline-flex items-center gap-3.5 rounded-xl bg-accent px-11 py-4 font-bold text-on-accent transition-[background-color,transform] duration-fast ease-out hover:-translate-y-0.5 hover:bg-accent-hover active:translate-y-0 active:scale-97"
+      className="inline-flex w-full items-center justify-center gap-3.5 rounded-xl bg-accent py-4 font-bold text-on-accent transition-[background-color,transform] duration-fast ease-out hover:-translate-y-0.5 hover:bg-accent-hover active:translate-y-0 active:scale-97"
     >
       <IconEnvelope className="size-5.5" />
       メールで連絡する

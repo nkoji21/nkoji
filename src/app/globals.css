@@ -52,6 +52,12 @@
 }
 
 @layer base {
+  /* Tailwind v4 は button の cursor を既定に戻すので、押せるものは指カーソルにする */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
   body {
     background: var(--color-background);
     color: var(--color-foreground);
