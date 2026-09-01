@@ -27,11 +27,11 @@ export function PeekChara() {
         "translate-y-0 scale-90 rotate-[4deg] opacity-0",
         // ホバー。上へ顔を出しつつ、右へさらに傾ける。
         // 傾きが増えるほうが、まっすぐ出るより「のぞき込んだ」感じになる
-        "group-hover:-translate-y-[58%] group-hover:translate-x-1",
-        "group-hover:scale-100 group-hover:rotate-[12deg]",
+        "group-hover:-translate-y-[57%] group-hover:translate-x-1",
+        "group-hover:scale-100 group-hover:rotate-[8deg]",
         "group-hover:opacity-100",
         // 出入りで同じ指定なので、離しても同じ速さで帰る
-        "transition-[translate,scale,rotate,opacity] duration-spring ease-spring",
+        "transition-[translate,scale,rotate,opacity] duration-500 ease-bounce",
         // 動きを減らす設定でも、隠れたままでは何も見えないので位置だけは動かす
         "motion-reduce:group-hover:-translate-y-[58%]",
       ].join(" ")}

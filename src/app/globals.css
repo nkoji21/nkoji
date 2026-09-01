@@ -456,6 +456,41 @@
 }
 
 /*
+ * ページの繋ぎ。
+ *
+ * 出ていく側だけをここで動かす。入ってくる側は各ページが持っている
+ * anim-stagger / anim-hero-up などの入場がそのまま走るので、
+ * ここでも動かすと二重にずれてしまう。
+ *
+ * 入場が下から持ち上がるのに対して、退場は上から下へ流して向きを揃える。
+ */
+@keyframes page-out {
+  from {
+    opacity: 1;
+    translate: 0 0;
+  }
+  to {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}
+
+/* biome-ignore lint/correctness/noUnknownTypeSelector: View Transition の疑似要素を biome がまだ知らない */
+::view-transition-old(root) {
+  animation: page-out var(--duration-base) var(--ease-out) both;
+}
+
+/*
+ * 新しいページは即座に置く。中身の登場は各ページの入場アニメーションに任せる。
+ * 既定のクロスフェードのままだと、その入場と重なって二重に薄くなる
+ */
+/* biome-ignore lint/correctness/noUnknownTypeSelector: 同上 */
+::view-transition-new(root) {
+  animation: none;
+  opacity: 1;
+}
+
+/*
  * 動きを減らす設定を尊重する。動きは消すが、色や下線の変化は残したいので
  * 一律に打ち消さず、時間だけをほぼ 0 にする。
  * 音は「動き」ではないので、この設定の影響を受けない（ミュートで制御する）。
