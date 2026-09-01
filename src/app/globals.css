@@ -141,6 +141,17 @@
   }
 }
 
+@keyframes pop-out {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+
 /*
  * 下から持ち上がって着地する。トップのアイコン用。
  * 移動量は変数にしておく。ばねの曲線は着地後に少し沈むので、
@@ -232,6 +243,14 @@
 @utility anim-pop-in {
   animation: pop-in var(--duration-slow) var(--ease-bounce) var(--delay, 0s)
     both;
+}
+
+/*
+ * 閉じる動き。開くときの跳ねは使わず、短く素直に引く。
+ * 閉じるのは「もう用は済んだ」動きなので、跳ねると往生際が悪く見える
+ */
+@utility anim-pop-out {
+  animation: pop-out var(--duration-fast) var(--ease-out) both;
 }
 
 @utility anim-rise {
