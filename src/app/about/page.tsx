@@ -79,14 +79,14 @@ export default function AboutPage() {
 
           <section>
             <SectionHeading eyebrow="いるところ">Activities</SectionHeading>
-            <ul className="mt-5 flex flex-col gap-4">
+            <ul className="mt-3 flex flex-col gap-1">
               {ACTIVITIES.map(({ name, role, href }) => (
                 <li key={name}>
                   <a
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex flex-col gap-0.5"
+                    className="-mx-3 group flex flex-col gap-0.5 rounded-xl px-3 py-2 transition-colors duration-fast ease-out hover:bg-background-hover"
                   >
                     {/* アイコンは inline で置く。flex にすると長い名前が折り返せない */}
                     <span className="font-bold text-foreground-strong text-sm md:text-base">
