@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { IconArrowUpRight, IconCaretRight } from "@/components/icons";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { PeekChara } from "@/components/ui/peek-chara";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SoundLink } from "@/components/ui/sound-link";
 
@@ -129,12 +130,27 @@ function Card({
 
   if (!href) return <div className={className}>{children}</div>;
 
-  const hoverClassName = `group ${className} transition-[background-color,transform] duration-fast ease-out hover:bg-surface-hover active:scale-99`;
+  /*
+   * キャラをカードの「裏」に隠すための重なり作り。
+   * 要素自身の背景はいちばん奥に塗られるので、-z-10 の子は必ず隠れてしまう。
+   * そこで背景を ::before に逃がし、キャラをさらにその後ろへ置く。
+   *   ::before（背景, -z-10） > キャラ（-z-20）
+   * isolate で基準を閉じ、ページ背景まで突き抜けないようにする。
+   * 角丸で切られないよう overflow は広げたままにする
+   */
+  const hoverClassName = [
+    "group relative isolate mt-2 block px-5 py-5 md:px-5.5",
+    "before:absolute before:inset-0 before:-z-10 before:rounded-2xl",
+    "before:bg-surface before:transition-colors before:duration-fast",
+    "before:ease-out hover:before:bg-surface-hover",
+    "transition-transform duration-fast ease-out active:scale-99",
+  ].join(" ");
 
   if (!isExternal(href)) {
     return (
       <SoundLink href={href} className={hoverClassName}>
         {children}
+        <PeekChara />
       </SoundLink>
     );
   }
@@ -147,6 +163,7 @@ function Card({
       className={hoverClassName}
     >
       {children}
+      <PeekChara />
     </a>
   );
 }
