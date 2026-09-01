@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   IconCaretDown,
   IconGear,
@@ -12,16 +12,47 @@ import { NAV_ITEMS } from "@/components/layout/nav-items";
 import { SoundLink } from "@/components/ui/sound-link";
 import { playSound, useSound } from "@/lib/sound";
 
+/** globals.css の anim-pop-out と揃える */
+const CLOSE_MS = 200;
+
 /**
  * 下部中央に置くのは、左右どちらの親指からも等距離にするため。
  * 設定を畳んでいるのは、項目が増えてもページ移動が上に押し上げられないようにするため。
  */
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const panelId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const { isEnabled: isSoundEnabled, toggle: toggleSound } = useSound();
+
+  /*
+   * 閉じる動きを見せてから畳む。
+   * すぐ isOpen を false にすると要素が消えてしまい、動かす余地がない。
+   * 閉じ方が 4 つ（ボタン・外側タップ・Escape・ページ移動）あるので、
+   * ここへ集約して同じ動きになるようにする。
+   */
+  const closeTimer = useRef<number | undefined>(undefined);
+
+  const startClose = useCallback(() => {
+    if (closeTimer.current) return; // 閉じ始めていたら何もしない
+    setIsClosing(true);
+    closeTimer.current = window.setTimeout(() => {
+      closeTimer.current = undefined;
+      setIsOpen(false);
+      setIsClosing(false);
+      setIsSettingsOpen(false);
+    }, CLOSE_MS);
+  }, []);
+
+  // 途中でページを移ると待ち時間だけが残るので、片付けておく
+  useEffect(
+    () => () => {
+      if (closeTimer.current) window.clearTimeout(closeTimer.current);
+    },
+    [],
+  );
 
   // 暗転レイヤーを置かない設計なので、外側タップの検知は自前で持つ
   useEffect(() => {
@@ -29,8 +60,7 @@ export function MobileNav() {
 
     const dismiss = () => {
       playSound("click");
-      setIsOpen(false);
-      setIsSettingsOpen(false);
+      startClose();
     };
 
     const handlePointerDown = (event: PointerEvent) => {
@@ -46,17 +76,23 @@ export function MobileNav() {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, startClose]);
 
   const open = () => {
     playSound("click");
+    // 閉じ切る前に開き直されたら、残っている待ち時間を止める。
+    // 放っておくと開いた直後に閉じられてしまう
+    if (closeTimer.current) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = undefined;
+      setIsClosing(false);
+    }
     setIsOpen(true);
   };
 
   const close = () => {
     playSound("click");
-    setIsOpen(false);
-    setIsSettingsOpen(false);
+    startClose();
   };
 
   return (
@@ -67,17 +103,16 @@ export function MobileNav() {
       {isOpen ? (
         <div
           id={panelId}
-          className="w-67 origin-bottom rounded-3xl bg-code-surface/70 p-2 text-surface shadow-lg backdrop-blur-xl anim-pop-in"
+          className={`w-67 origin-bottom rounded-3xl bg-code-surface/70 p-2 text-surface shadow-lg backdrop-blur-xl ${
+            isClosing ? "anim-pop-out" : "anim-pop-in"
+          }`}
         >
           <ul>
             {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
               <li key={href}>
                 <SoundLink
                   href={href}
-                  onClick={() => {
-                    setIsOpen(false);
-                    setIsSettingsOpen(false);
-                  }}
+                  onClick={startClose}
                   className="flex items-center justify-between rounded-xl px-3.5 py-3 transition-colors duration-fast ease-out hover:bg-white/10 active:scale-97"
                 >
                   <span className="font-display text-lg">{label}</span>

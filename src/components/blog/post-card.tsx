@@ -16,15 +16,19 @@ export function PostCard({ post }: { post: PostMeta }) {
       href={`/blog/${post.slug}`}
       className="group flex flex-col gap-3 active:scale-99"
     >
-      <div className="relative flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-surface transition-transform duration-slow ease-out group-hover:-translate-y-1.5">
+      <div className="relative flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-surface">
         {post.image ? (
           <Image
             src={post.image}
             alt=""
             fill
             sizes={CARD_SIZES}
-            /* 画像だけ少し拡大する。枠は動かさないので、はみ出しは overflow で切る */
-            className="object-cover transition-transform duration-slow ease-out group-hover:scale-105"
+            /*
+             * 枠は動かさず中の画像だけ寄る。はみ出しは overflow で切る。
+             * 序盤で一気に寄ってから減速しきる ease-settle にして、
+             * 止まる瞬間に速度が残らないようにする（急に止まって見えない）
+             */
+            className="object-cover transition-transform duration-1000 ease-settle group-hover:scale-109"
           />
         ) : (
           <span className="text-xs">画像</span>

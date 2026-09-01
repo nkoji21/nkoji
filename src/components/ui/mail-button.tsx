@@ -14,6 +14,7 @@ export function MailButton() {
   return (
     <button
       type="button"
+      data-hover-sound
       onClick={() => {
         playSound("click");
         window.location.href = `mailto:${USER}@${DOMAIN}`;

@@ -141,6 +141,19 @@
   }
 }
 
+@keyframes pop-out {
+  from {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+  }
+  to {
+    opacity: 0;
+    scale: 0.92;
+    translate: 0 12px;
+  }
+}
+
 /*
  * 下から持ち上がって着地する。トップのアイコン用。
  * 移動量は変数にしておく。ばねの曲線は着地後に少し沈むので、
@@ -232,6 +245,17 @@
 @utility anim-pop-in {
   animation: pop-in var(--duration-slow) var(--ease-bounce) var(--delay, 0s)
     both;
+}
+
+/*
+ * 閉じる動き。縮みながら下へ引く。画面下端から出るパネルなので、
+ * 沈んで消えるほうが向きが揃う。
+ * 開くときの跳ねは使わない。閉じ際に跳ねると往生際が悪く見える。
+ * ただし速すぎると閉じたことに気づけないので、開くときの半分は取る
+ */
+@utility anim-pop-out {
+  /* 200ms はトークンにない。mobile-nav の CLOSE_MS と対で持つ値なので直に書く */
+  animation: pop-out 200ms var(--ease-out) both;
 }
 
 @utility anim-rise {

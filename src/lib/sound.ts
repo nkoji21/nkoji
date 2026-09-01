@@ -2,50 +2,94 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from "react";
 
-export type SoundName = "click";
+export type SoundName = "click" | "hover";
 
 const STORAGE_KEY = "nkoji:sound";
-/** 連続で鳴っても不快にならない音量 */
-const VOLUME = 0.6;
-
-/**
- * 音源は先に読み込んでおく。押されてから取りに行くと、
- * モバイル回線では取得を待つあいだ音が遅れて聞こえるため。
- * 15KB 程度なので、鳴らさない訪問者にかかる負担よりも遅延の解消を取る。
+/*
+ * 連続で鳴っても不快にならない音量。
+ * ホバーは通り過ぎるだけでも鳴るぶん回数が多いので、クリックより控えめにする。
  */
-const buffers = new Map<SoundName, HTMLAudioElement>();
+const VOLUME: Record<SoundName, number> = {
+  click: 0.6,
+  hover: 0.25,
+};
 
-function getAudio(name: SoundName) {
-  let audio = buffers.get(name);
-  if (!audio) {
-    audio = new Audio(`/sounds/${name}.wav`);
-    audio.preload = "auto";
-    audio.volume = VOLUME;
-    buffers.set(name, audio);
+/*
+ * 音は Web Audio で鳴らす。
+ *
+ * audio 要素をひとつ使い回すと、鳴らすたび currentTime を戻す必要があり、
+ * その巻き戻しに時間がかかる。連打すると前の再生が打ち切られるので
+ * 鳴り損ねも起きる。
+ *
+ * Web Audio なら、読み込んだ音を一度だけ複号しておき、鳴らすたびに
+ * 使い捨ての音源を作って即座に流せる。重ねて鳴らせるので連打にも耐える。
+ */
+let context: AudioContext | null = null;
+const decoded = new Map<SoundName, AudioBuffer>();
+
+function getContext() {
+  if (!context) {
+    const Ctor =
+      window.AudioContext ??
+      (window as unknown as { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext;
+    if (!Ctor) return null;
+    context = new Ctor();
   }
-  return audio;
+  return context;
+}
+
+/*
+ * 取得と複号は分けておく。
+ *
+ * 取得はページを開いた時点で済ませたいが、複号には AudioContext が要る。
+ * AudioContext を作るのはオーディオ機器を掴む処理で、モバイルでは軽くない。
+ * 音を鳴らさずに帰る訪問者にその負担をかけたくないので、
+ * 作るのは最初に触られたときまで待つ。
+ */
+const fetched = new Map<SoundName, Promise<ArrayBuffer>>();
+
+function prefetch(name: SoundName) {
+  if (fetched.has(name)) return;
+  fetched.set(
+    name,
+    fetch(`/sounds/${name}.m4a`).then((res) => res.arrayBuffer()),
+  );
+}
+
+/** 複号は 1 回だけ。以後は複号済みのものを使い回す */
+async function decode(name: SoundName) {
+  if (decoded.has(name)) return;
+
+  const ctx = getContext();
+  if (!ctx) return;
+
+  prefetch(name);
+  const bytes = fetched.get(name);
+  if (!bytes) return;
+
+  try {
+    // decodeAudioData は渡した領域を消費するので、複製を渡す
+    const buffer = await ctx.decodeAudioData((await bytes).slice(0));
+    decoded.set(name, buffer);
+  } catch {
+    // 取れなければ音を諦める。動作そのものは止めない
+  }
 }
 
 /**
  * iOS などは、ユーザー操作から始まった再生でないと音を出さない。
- * 最初の操作で一度だけ再生を試みて解錠しておく。
- *
- * 解錠には本命とは別の要素を使う。同じ要素を使うと、解錠側が音量を
- * 戻したり pause したりするのと、本命の再生とがぶつかって、
- * 1 回目が無音のまま止められてしまう。
+ * AudioContext も操作の中で resume しないと止まったままになる。
  */
-let unlocked = false;
-
 function unlock() {
-  if (unlocked) return;
-  unlocked = true;
+  if (!enabled) return;
 
-  const primer = new Audio(`/sounds/click.wav`);
-  primer.volume = 0;
-  primer
-    .play()
-    .then(() => primer.pause())
-    .catch(() => {});
+  const ctx = getContext();
+  if (ctx?.state === "suspended") ctx.resume().catch(() => {});
+
+  // 最初に触られた時点で複号しておく。次の操作には間に合う
+  decode("click");
+  decode("hover");
 }
 
 /* --- 有効・無効の状態。複数のトグルが同じ値を見るので外に持つ --- */
@@ -68,28 +112,40 @@ const getSnapshot = () => enabled;
 /** サーバーでは常に ON 扱い。実際の値はマウント後に localStorage から読む */
 const getServerSnapshot = () => true;
 
-/**
- * 直前に pointerdown で鳴らした時刻。
- * click はタップから最大 300ms ほど遅れて来るので、押した瞬間に鳴らし、
- * 後から来る click の分を捨てて二重に鳴らないようにする。
+/*
+ * 同じ操作で二重に鳴らさないための印。
+ *
+ * ひとつの操作は pointerdown → click の順で届き、押した瞬間に鳴らすので
+ * 後から来る click のぶんは捨てたい。ただ時間で判定すると、
+ * 速い連打まで巻き込んで消してしまう。
+ * そこで pointerdown で目印を立て、次の click 1 回だけを飛ばす。
  */
-let lastPlayedAt = 0;
-const DOUBLE_PLAY_MS = 400;
+let handledByPointer = false;
 
 function play(name: SoundName) {
   if (!enabled) return;
 
-  const audio = getAudio(name);
-  // 連打しても鳴り始めを揃える
-  audio.currentTime = 0;
-  // 解錠前はブラウザに拒否される。無視してよい
-  audio.play().catch(() => {});
-  lastPlayedAt = performance.now();
+  const ctx = getContext();
+  const buffer = decoded.get(name);
+  if (!ctx || !buffer) return;
+
+  // 使い捨ての音源を都度作る。前の音を止めないので連打しても重なって鳴る
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+
+  const gain = ctx.createGain();
+  gain.gain.value = VOLUME[name];
+
+  source.connect(gain).connect(ctx.destination);
+  source.start();
 }
 
 export function playSound(name: SoundName) {
-  // 押した時点で既に鳴っているなら、後続の click では鳴らさない
-  if (performance.now() - lastPlayedAt < DOUBLE_PLAY_MS) return;
+  // 押した瞬間に鳴らしていれば、その操作の click では鳴らさない
+  if (handledByPointer) {
+    handledByPointer = false;
+    return;
+  }
   play(name);
 }
 
@@ -104,6 +160,9 @@ const PRESSABLE =
  * 切り替えたあとに鳴らすかどうかは toggle 側が決める。
  */
 const SOUND_TOGGLE = "[data-sound-toggle]";
+
+/** ホバー音を鳴らす対象。付けたものだけが鳴る */
+const HOVER_SOUND = "[data-hover-sound]";
 
 /**
  * 音源の先読みと、押した瞬間に鳴らす仕掛けを一度だけ用意する。
@@ -120,15 +179,54 @@ function setupSound() {
   if (didSetup) return;
   didSetup = true;
 
-  getAudio("click");
+  // 消している人には取りに行かない
+  if (enabled) {
+    prefetch("click");
+    prefetch("hover");
+  }
 
   document.addEventListener("pointerdown", (event) => {
     unlock();
     const target = event.target as Element | null;
     if (target?.closest?.(SOUND_TOGGLE)) return;
-    if (target?.closest?.(PRESSABLE)) play("click");
+    if (target?.closest?.(PRESSABLE)) {
+      play("click");
+      handledByPointer = true;
+    }
   });
-  document.addEventListener("keydown", unlock, { once: true });
+  document.addEventListener("keydown", unlock);
+
+  /*
+   * ホバー音。
+   *
+   * 押せるもの全部で鳴らすとうるさいので、data-hover-sound が付いた
+   * ものだけを対象にする。鳴らしたい場所で明示的に付ける。
+   *
+   * pointerover は指のタップでも飛んでくるので、マウスのときだけ鳴らす。
+   * そうしないとスマホで、触るたびホバー音とクリック音が重なる。
+   *
+   * 同じ要素の中で子から子へ移ったときは鳴らさない。
+   * 文字からアイコンへ移っただけで鳴り直すと、うるさく感じるため。
+   */
+  let hovered: Element | null = null;
+
+  document.addEventListener("pointerover", (event) => {
+    if (event.pointerType !== "mouse") return;
+
+    const target = event.target as Element | null;
+    const wanted = target?.closest?.(HOVER_SOUND) ?? null;
+    if (wanted === hovered) return;
+
+    hovered = wanted;
+    if (wanted) play("hover");
+  });
+
+  // 押せるものから外れたら、次に戻ってきたとき鳴るように印を消す
+  document.addEventListener("pointerout", (event) => {
+    if (event.pointerType !== "mouse") return;
+    const next = (event as PointerEvent).relatedTarget as Element | null;
+    if (!next?.closest?.(HOVER_SOUND)) hovered = null;
+  });
 }
 
 /**
@@ -163,9 +261,14 @@ export function useSound() {
   const toggle = useCallback(() => {
     enabled = !enabled;
     localStorage.setItem(STORAGE_KEY, enabled ? "on" : "off");
-    // ON にした瞬間だけ鳴らす。OFF にするときは無音が自然。
-    // ここは押した合図なので、直前に鳴っていても必ず鳴らす
-    if (enabled) play("click");
+    if (enabled) {
+      // OFF で開いた人が ON にした場合、まだ取りに行っていないので今から用意する。
+      // ON にした合図は鳴らしたいが、複号を待つ必要があるので終わってから鳴らす
+      prefetch("click");
+      prefetch("hover");
+      unlock();
+      decode("click").then(() => play("click"));
+    }
     emit();
   }, []);
 
