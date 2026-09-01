@@ -148,7 +148,7 @@ export default function WorksPage() {
                     </span>
                     {isOngoing ? (
                       <span className="rounded-xl bg-accent px-2 py-0.5 text-on-accent text-xs">
-                        継続中
+                        現在
                       </span>
                     ) : null}
                   </div>
