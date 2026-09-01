@@ -148,7 +148,7 @@ function Card({
 
   if (!isExternal(href)) {
     return (
-      <SoundLink href={href} className={hoverClassName}>
+      <SoundLink href={href} className={hoverClassName} data-hover-sound>
         {children}
         <PeekChara />
       </SoundLink>
@@ -161,6 +161,7 @@ function Card({
       target="_blank"
       rel="noopener noreferrer"
       className={hoverClassName}
+      data-hover-sound
     >
       {children}
       <PeekChara />

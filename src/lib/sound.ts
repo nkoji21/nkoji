@@ -133,6 +133,9 @@ const PRESSABLE =
  */
 const SOUND_TOGGLE = "[data-sound-toggle]";
 
+/** ホバー音を鳴らす対象。付けたものだけが鳴る */
+const HOVER_SOUND = "[data-hover-sound]";
+
 /**
  * 音源の先読みと、押した瞬間に鳴らす仕掛けを一度だけ用意する。
  *
@@ -165,6 +168,9 @@ function setupSound() {
   /*
    * ホバー音。
    *
+   * 押せるもの全部で鳴らすとうるさいので、data-hover-sound が付いた
+   * ものだけを対象にする。鳴らしたい場所で明示的に付ける。
+   *
    * pointerover は指のタップでも飛んでくるので、マウスのときだけ鳴らす。
    * そうしないとスマホで、触るたびホバー音とクリック音が重なる。
    *
@@ -177,19 +183,18 @@ function setupSound() {
     if (event.pointerType !== "mouse") return;
 
     const target = event.target as Element | null;
-    const pressable = target?.closest?.(PRESSABLE) ?? null;
-    if (pressable === hovered) return;
+    const wanted = target?.closest?.(HOVER_SOUND) ?? null;
+    if (wanted === hovered) return;
 
-    hovered = pressable;
-    // 音を消すためのボタンで音を鳴らさない。押したときと揃える
-    if (pressable && !pressable.closest(SOUND_TOGGLE)) play("hover");
+    hovered = wanted;
+    if (wanted) play("hover");
   });
 
   // 押せるものから外れたら、次に戻ってきたとき鳴るように印を消す
   document.addEventListener("pointerout", (event) => {
     if (event.pointerType !== "mouse") return;
     const next = (event as PointerEvent).relatedTarget as Element | null;
-    if (!next?.closest?.(PRESSABLE)) hovered = null;
+    if (!next?.closest?.(HOVER_SOUND)) hovered = null;
   });
 }
 
