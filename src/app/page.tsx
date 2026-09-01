@@ -1,9 +1,13 @@
-import { Avatar } from "@/components/ui/avatar";
+import { AvatarButton } from "@/components/ui/avatar-button";
 
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-8 px-5 pb-24 md:flex-row md:gap-24 md:pb-0">
-      <Avatar className="anim-pop-in anim-delay-100 size-45 md:order-2 md:size-64" />
+      {/* 入場（anim-pop-in）と反応（anim-press）は別の要素に分ける。
+          どちらも scale を使うので、同じ要素に載せると打ち消し合う */}
+      <div className="anim-pop-in anim-delay-100 size-45 md:order-2 md:size-64">
+        <AvatarButton className="size-full" />
+      </div>
       <div className="flex flex-col items-center gap-2 md:order-1 md:items-start">
         <h1 className="anim-slide-up anim-delay-350 font-display text-5xl text-foreground md:text-7xl">
           nkoji

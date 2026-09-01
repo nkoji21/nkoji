@@ -150,6 +150,27 @@
 }
 
 /*
+ * 押せるものに触ったときの反応。ホバーで少し大きく、押している間は縮む。
+ * scale だけを動かすので、入場アニメーション（translate / opacity）と衝突しない。
+ * 拡大は跳ねるイージング、戻りは行き過ぎない ease-out にして、
+ * カーソルが速く出入りしても揺れ続けないようにする。
+ */
+@utility anim-press {
+  transition: scale var(--duration-base) var(--ease-out);
+
+  &:hover {
+    scale: 1.12;
+    transition-timing-function: var(--ease-bounce);
+  }
+
+  /* 押下は即座に返したいので速く。指を離すと上の hover 側に戻る */
+  &:active {
+    scale: 0.96;
+    transition-duration: var(--duration-fast);
+  }
+}
+
+/*
  * 子要素を順にずらして出す。keyframes は 1 つだけ書き、遅延は変数で振り分ける。
  * 要素が増えても規則は増えない（参考: github.com/yui540/css-animations, MIT）
  */
