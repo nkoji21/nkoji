@@ -57,10 +57,32 @@
     scrollbar-gutter: stable;
   }
 
-  /* Tailwind v4 は button の cursor を既定に戻すので、押せるものは指カーソルにする */
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
-    cursor: pointer;
+  /*
+   * サイトの色で描いたドット絵カーソル。押せるものも含めページ全体で使う。
+   * 座標は画像内の hotspot（実際に「指している」点）＝機首の先端。
+   * 16x16 のドット絵を 20px で書き出しているので書き出し後の px で数える
+   * （機首はドット (1,1)、1 ドット=1.25px なので 1 1）。
+   * 読み込み失敗や未対応に備えて最後に既定値を残す。
+   * 粗いポインタ（タッチ・ペン）では独自カーソルに意味がないので当てない。
+   */
+  @media (any-pointer: fine) {
+    /*
+     * body だけだと、ブラウザ既定のスタイルが a[href] などに当てる pointer に
+     * 負けて指カーソルが出てしまう。継承より作者スタイルの指定が強いので、
+     * 自前で指カーソルになりうる要素まで含めて明示的に上書きする。
+     */
+    body,
+    a[href],
+    button,
+    [role="button"],
+    label,
+    summary,
+    select,
+    [contenteditable] {
+      cursor:
+        url("/cursor-default.svg") 1 1,
+        default;
+    }
   }
 
   body {
