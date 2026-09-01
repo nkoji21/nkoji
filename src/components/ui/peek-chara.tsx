@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 /**
- * カードにホバーすると、カードの裏からひょっこり出てくるキャラ。
+ * カードにホバーすると、カードの裏から上にひょっこり顔を出すキャラ。
  * 親に group と position:relative があることが前提。
  *
  * カードより奥に置くので、出てきても体の大部分はカードに隠れ、
@@ -22,16 +22,18 @@ export function PeekChara() {
       sizes="96px"
       className={[
         // カード背景(::before, -z-10)よりさらに奥。はみ出した分だけ見える
-        "pointer-events-none -z-20 absolute right-4 bottom-0 w-16 md:w-20",
+        "pointer-events-none -z-20 absolute top-0 right-5 w-16 md:w-20",
         // 待機。カードの裏に完全に潜り込ませておく
-        "translate-y-0 scale-90 rotate-[-6deg] opacity-0",
-        // ホバー。下からせり上がって顔を出す
-        "group-hover:translate-y-[62%] group-hover:scale-100",
-        "group-hover:rotate-0 group-hover:opacity-100",
+        "translate-y-0 scale-90 rotate-[4deg] opacity-0",
+        // ホバー。上へ顔を出しつつ、右へさらに傾ける。
+        // 傾きが増えるほうが、まっすぐ出るより「のぞき込んだ」感じになる
+        "group-hover:-translate-y-[58%] group-hover:translate-x-1",
+        "group-hover:scale-100 group-hover:rotate-[12deg]",
+        "group-hover:opacity-100",
         // 出入りで同じ指定なので、離しても同じ速さで帰る
         "transition-[translate,scale,rotate,opacity] duration-spring ease-spring",
-        // 動きを減らす設定では出入りだけにして、位置は動かさない
-        "motion-reduce:group-hover:translate-y-[62%]",
+        // 動きを減らす設定でも、隠れたままでは何も見えないので位置だけは動かす
+        "motion-reduce:group-hover:-translate-y-[58%]",
       ].join(" ")}
     />
   );
