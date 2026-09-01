@@ -89,7 +89,8 @@ export function PostImage({
               width={width}
               height={height}
               sizes="100vw"
-              className="h-auto max-h-[90dvh] w-full object-contain"
+              // prose の img に角丸が当たるので、拡大時は打ち消す
+              className="h-auto max-h-[90dvh] w-full rounded-none object-contain"
             />
           </div>
           <button
