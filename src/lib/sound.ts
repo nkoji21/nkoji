@@ -57,24 +57,42 @@ function prefetch(name: SoundName) {
   );
 }
 
-/** 複号は 1 回だけ。以後は複号済みのものを使い回す */
-async function decode(name: SoundName) {
-  if (decoded.has(name)) return;
+/*
+ * 複号は 1 回だけ。以後は複号済みのものを使い回す。
+ *
+ * 走っている最中の約束を覚えておく。触られるたび decode を呼ぶので、
+ * 覚えておかないと終わる前に何本も走り、同じ取得結果を奪い合ってしまう。
+ */
+const decoding = new Map<SoundName, Promise<void>>();
+
+function decode(name: SoundName): Promise<void> {
+  if (decoded.has(name)) return Promise.resolve();
+
+  const running = decoding.get(name);
+  if (running) return running;
 
   const ctx = getContext();
-  if (!ctx) return;
+  if (!ctx) return Promise.resolve();
 
   prefetch(name);
   const bytes = fetched.get(name);
-  if (!bytes) return;
+  if (!bytes) return Promise.resolve();
 
-  try {
+  const task = bytes
     // decodeAudioData は渡した領域を消費するので、複製を渡す
-    const buffer = await ctx.decodeAudioData((await bytes).slice(0));
-    decoded.set(name, buffer);
-  } catch {
-    // 取れなければ音を諦める。動作そのものは止めない
-  }
+    .then((raw) => ctx.decodeAudioData(raw.slice(0)))
+    .then((buffer) => {
+      decoded.set(name, buffer);
+    })
+    .catch(() => {
+      // 取れなければ音を諦める。動作そのものは止めない
+    })
+    .finally(() => {
+      decoding.delete(name);
+    });
+
+  decoding.set(name, task);
+  return task;
 }
 
 /**
@@ -122,9 +140,7 @@ const getServerSnapshot = () => true;
  */
 let handledByPointer = false;
 
-function play(name: SoundName) {
-  if (!enabled) return;
-
+function start(name: SoundName) {
   const ctx = getContext();
   const buffer = decoded.get(name);
   if (!ctx || !buffer) return;
@@ -138,6 +154,19 @@ function play(name: SoundName) {
 
   source.connect(gain).connect(ctx.destination);
   source.start();
+}
+
+function play(name: SoundName) {
+  if (!enabled) return;
+
+  // 複号が済んでいれば即座に。まだなら終わるのを待って鳴らす。
+  // 待たずに諦めると、複号の間に合わない 1 回目が無音になる。
+  // マウスならホバーで先に複号が始まるが、指で触る画面にはそれがない
+  if (decoded.has(name)) {
+    start(name);
+    return;
+  }
+  decode(name).then(() => start(name));
 }
 
 export function playSound(name: SoundName) {
@@ -267,7 +296,8 @@ export function useSound() {
       prefetch("click");
       prefetch("hover");
       unlock();
-      decode("click").then(() => play("click"));
+      // play が複号の完了を待つので、ここでは呼ぶだけでよい
+      play("click");
     }
     emit();
   }, []);
