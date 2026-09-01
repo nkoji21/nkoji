@@ -19,5 +19,22 @@ export function LeaveReset() {
     delete document.documentElement.dataset.leaving;
   }, [pathname]);
 
+  /*
+   * 保険。遷移が起きなかったときに本文が消えたままにならないようにする。
+   * ページが隠れて戻ってきたとき（別タブから戻る、ブラウザバックなど）は
+   * 退場の途中で止まっている可能性があるので、そこでも必ず外す。
+   */
+  useEffect(() => {
+    const clear = () => {
+      delete document.documentElement.dataset.leaving;
+    };
+    window.addEventListener("pageshow", clear);
+    document.addEventListener("visibilitychange", clear);
+    return () => {
+      window.removeEventListener("pageshow", clear);
+      document.removeEventListener("visibilitychange", clear);
+    };
+  }, []);
+
   return null;
 }
