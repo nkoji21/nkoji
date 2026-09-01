@@ -28,8 +28,11 @@ function getAudio(name: SoundName) {
 
 /**
  * iOS などは、ユーザー操作から始まった再生でないと音を出さない。
- * 最初の操作で一度だけ無音のまま再生して解錠しておかないと、
- * 1 回目のタップが鳴らずに終わる。
+ * 最初の操作で一度だけ再生を試みて解錠しておく。
+ *
+ * 解錠には本命とは別の要素を使う。同じ要素を使うと、解錠側が音量を
+ * 戻したり pause したりするのと、本命の再生とがぶつかって、
+ * 1 回目が無音のまま止められてしまう。
  */
 let unlocked = false;
 
@@ -37,19 +40,12 @@ function unlock() {
   if (unlocked) return;
   unlocked = true;
 
-  const audio = getAudio("click");
-  const { volume } = audio;
-  audio.volume = 0;
-  audio
+  const primer = new Audio(`/sounds/click.wav`);
+  primer.volume = 0;
+  primer
     .play()
-    .then(() => {
-      audio.pause();
-      audio.currentTime = 0;
-      audio.volume = volume;
-    })
-    .catch(() => {
-      audio.volume = volume;
-    });
+    .then(() => primer.pause())
+    .catch(() => {});
 }
 
 /* --- 有効・無効の状態。複数のトグルが同じ値を見るので外に持つ --- */
