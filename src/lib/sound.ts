@@ -39,16 +39,38 @@ function getContext() {
   return context;
 }
 
-/** 取得と複号は 1 回だけ。以後は複号済みのものを使い回す */
-async function load(name: SoundName) {
+/*
+ * 取得と複号は分けておく。
+ *
+ * 取得はページを開いた時点で済ませたいが、複号には AudioContext が要る。
+ * AudioContext を作るのはオーディオ機器を掴む処理で、モバイルでは軽くない。
+ * 音を鳴らさずに帰る訪問者にその負担をかけたくないので、
+ * 作るのは最初に触られたときまで待つ。
+ */
+const fetched = new Map<SoundName, Promise<ArrayBuffer>>();
+
+function prefetch(name: SoundName) {
+  if (fetched.has(name)) return;
+  fetched.set(
+    name,
+    fetch(`/sounds/${name}.m4a`).then((res) => res.arrayBuffer()),
+  );
+}
+
+/** 複号は 1 回だけ。以後は複号済みのものを使い回す */
+async function decode(name: SoundName) {
   if (decoded.has(name)) return;
 
   const ctx = getContext();
   if (!ctx) return;
 
+  prefetch(name);
+  const bytes = fetched.get(name);
+  if (!bytes) return;
+
   try {
-    const res = await fetch(`/sounds/${name}.wav`);
-    const buffer = await ctx.decodeAudioData(await res.arrayBuffer());
+    // decodeAudioData は渡した領域を消費するので、複製を渡す
+    const buffer = await ctx.decodeAudioData((await bytes).slice(0));
     decoded.set(name, buffer);
   } catch {
     // 取れなければ音を諦める。動作そのものは止めない
@@ -60,8 +82,14 @@ async function load(name: SoundName) {
  * AudioContext も操作の中で resume しないと止まったままになる。
  */
 function unlock() {
+  if (!enabled) return;
+
   const ctx = getContext();
   if (ctx?.state === "suspended") ctx.resume().catch(() => {});
+
+  // 最初に触られた時点で複号しておく。次の操作には間に合う
+  decode("click");
+  decode("hover");
 }
 
 /* --- 有効・無効の状態。複数のトグルが同じ値を見るので外に持つ --- */
@@ -151,8 +179,11 @@ function setupSound() {
   if (didSetup) return;
   didSetup = true;
 
-  load("click");
-  load("hover");
+  // 消している人には取りに行かない
+  if (enabled) {
+    prefetch("click");
+    prefetch("hover");
+  }
 
   document.addEventListener("pointerdown", (event) => {
     unlock();
@@ -230,9 +261,14 @@ export function useSound() {
   const toggle = useCallback(() => {
     enabled = !enabled;
     localStorage.setItem(STORAGE_KEY, enabled ? "on" : "off");
-    // ON にした瞬間だけ鳴らす。OFF にするときは無音が自然。
-    // ここは押した合図なので、直前に鳴っていても必ず鳴らす
-    if (enabled) play("click");
+    if (enabled) {
+      // OFF で開いた人が ON にした場合、まだ取りに行っていないので今から用意する。
+      // ON にした合図は鳴らしたいが、複号を待つ必要があるので終わってから鳴らす
+      prefetch("click");
+      prefetch("hover");
+      unlock();
+      decode("click").then(() => play("click"));
+    }
     emit();
   }, []);
 
