@@ -4,6 +4,7 @@ date: 2025-03-14
 topic: 42Tokyo
 draft: false
 image: /blog/42tokyo-piscine/cover.webp
+description: 42 Tokyo の入学試験 Piscine を泳ぎ切るまでの1ヶ月間の記録。
 ---
 
 こんにちは!!

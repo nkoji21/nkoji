@@ -26,12 +26,22 @@ export async function generateMetadata({
   const post = await getPost((await params).slug);
   if (!post) return {};
 
+  const { description } = post.meta;
+
   return {
     title: post.meta.title,
+    // 未設定ならルートの説明文が継承される
+    ...(description && { description }),
     openGraph: {
       title: post.meta.title,
+      ...(description && { description }),
       type: "article",
       publishedTime: post.meta.date,
+    },
+    // 記事の OGP は横長なので、正方形前提で summary にしている
+    // ルートの設定をここで戻す
+    twitter: {
+      card: "summary_large_image",
     },
   };
 }
