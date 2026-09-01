@@ -34,11 +34,11 @@ const WORKS = [
   },
   {
     period: "2025.12",
-    company: "個人からの受託",
-    role: "グラフィックデザイン",
+    company: "麻雀アプリの OGP 画像",
+    role: "受託 · グラフィックデザイン",
     isOngoing: false,
-    title: "麻雀アプリの OGP 画像デザイン",
-    body: "対局結果を SNS でシェアするための OGP 画像をデザイン。タイムラインの小さな表示でも順位とスコアが一目で分かるよう、順位ごとに配色を変えて情報に強弱をつけました。",
+    title: "縮小表示でも順位が伝わる設計",
+    body: "対局結果を SNS でシェアするための画像をデザイン。タイムラインの小さな表示でも順位とスコアが一目で分かるよう、順位ごとに配色を変えて情報に強弱をつけました。",
     tags: ["Figma"],
     image: {
       src: "/works/mahjong-ogp.webp",
@@ -62,8 +62,8 @@ const WORKS = [
     role: "インターン · フロントエンド",
     isOngoing: false,
     title: "CtoC マッチングアプリ",
-    body: "React でフロントエンド開発を担当。楽観的更新などで操作後の待ち時間をなくし、ユーザーの行動ログを見ながら改善を重ねました。",
-    tags: ["React", "TypeScript"],
+    body: "React でフロントエンド開発を担当。メンターに TanStack Query の使い方を一から教わり、技術者のブログを読む習慣がついたのもこの頃です。ユーザーの行動を細かく記録していたので、ログから課題を見つけて実装まで持っていく流れも一緒に学べました。",
+    tags: ["React", "TypeScript", "TanStack Query"],
   },
   {
     period: "2024.08 – 2025.06",
@@ -71,7 +71,7 @@ const WORKS = [
     companyHref: "https://www.team-lab.com/",
     role: "アルバイト · ソリューションカタリスト",
     isOngoing: false,
-    title: "ソリューションカタリストのアシスタント",
+    title: "リサーチと提案資料づくり",
     body: "競合サービスのリサーチや提案資料の作成、Figma でのワイヤーフレーム制作を担当。現地に足を運んでのインタビューや、GAS での定型作業の自動化もしていました。コードを書く以外にもプロジェクトが前に進まなくなる理由があることを知った時期です。",
     tags: ["Figma", "GAS"],
   },
@@ -82,7 +82,7 @@ const WORKS = [
     role: "インターン · フロントエンド",
     isOngoing: false,
     title: "DX プロダクトの 0→1 開発",
-    body: "Next.js と Supabase で、立ち上げ段階のプロダクト開発を経験しました。メンターについてもらいながら、何もないところから形にしていく過程を一通り見られたのが大きかったです。",
+    body: "Next.js と Supabase で、立ち上げ段階のプロダクト開発を経験しました。KJ法をはじめて教わったのもここで、思いついたことを付箋に書き出して並べ替えていく進め方が新鮮でした。",
     tags: ["Next.js", "Supabase"],
   },
   {
@@ -92,7 +92,7 @@ const WORKS = [
     role: "インターン · Web開発",
     isOngoing: false,
     title: "はじめてのインターン",
-    body: "専門学校1年の夏、まだ制作物が何もない状態で受け入れてもらった最初の会社です。Progate で基礎を学ぶところから始めて、Ruby on Rails で成果物をつくり発表まで見てもらいました。",
+    body: "専門学校1年の夏、まだ制作物が何もない状態で受け入れてもらった最初の会社です。Progate で基礎を学ぶところから始めて、Ruby on Rails で成果物をつくりました。",
     tags: ["Ruby on Rails"],
   },
 ];
