@@ -26,6 +26,16 @@ export const metadata: Metadata = {
     template: "%s / nkoji",
   },
   description: "Personal website of nkoji.",
+  // metadataBase からの相対解決。各ページで上書きすれば個別の正規 URL になる
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    url: "/",
+    siteName: "nkoji",
+    locale: "ja_JP",
+    type: "website",
+  },
   icons: {
     icon: "/icon.png",
     apple: "/apple-icon.png",
