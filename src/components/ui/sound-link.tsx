@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation";
 import type { ComponentProps } from "react";
 import { playSound } from "@/lib/sound";
 
+/** globals.css の --duration-slow と揃える */
+const LEAVE_MS = 600;
+
 /**
- * クリック音が鳴り、ページを切り替えるときに前後をつなぐ Link。
+ * クリック音が鳴り、ページを離れるときに下へ流して消える Link。
  * 遷移する要素はこれを使い、音と繋ぎの有無を各所で判断しなくて済むようにする。
  *
- * 繋ぎはブラウザの View Transition に任せる。React が古いページを
- * 即座に消してしまうので、CSS だけでは「出ていく」動きを作れないため。
- * 実際の見た目は globals.css の ::view-transition-* 側で定義する。
+ * 退場は body にクラスを付けて自分で動かし、終わってから遷移する。
+ * View Transition に任せると、スナップショットを撮る関数が同期で呼ばれる一方
+ * router.push は非同期なので、ページが変わる前に繋ぎが終わってしまう。
  */
 export function SoundLink({ onClick, ...props }: ComponentProps<typeof Link>) {
   const router = useRouter();
@@ -40,18 +43,16 @@ export function SoundLink({ onClick, ...props }: ComponentProps<typeof Link>) {
           return;
         }
 
-        // 未対応のブラウザや、動きを減らす設定のときは素の遷移に任せる
-        if (
-          !document.startViewTransition ||
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ) {
+        // 動きを減らす設定のときは、待たせずそのまま遷移する
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           return;
         }
 
         event.preventDefault();
-        document.startViewTransition(() => {
-          router.push(href);
-        });
+        document.documentElement.dataset.leaving = "true";
+        window.setTimeout(() => router.push(href), LEAVE_MS);
+        // 属性は遷移先の LeaveReset が外す。
+        // ここで消すと、新しいページが描かれる前に古い本文が戻ってしまう
       }}
     />
   );
