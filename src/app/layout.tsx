@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     default: "nkoji",
     template: "%s / nkoji",
   },
-  description: "nkoji's website",
+  description: "Personal website of nkoji.",
   icons: {
     icon: "/icon.png",
     apple: "/apple-icon.png",
