@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { IconArrowUpRight } from "@/components/icons";
+import Link from "next/link";
+import { IconArrowUpRight, IconCaretRight } from "@/components/icons";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SectionHeading } from "@/components/ui/section-heading";
 
@@ -57,7 +58,7 @@ const ACTIVITIES = [
   {
     period: "2025.04 –",
     name: "42 Tokyo",
-    href: "https://42tokyo.jp/",
+    href: "/blog/42tokyo-piscine",
     role: "学生",
     isOngoing: true,
     body: "1ヶ月間の入学試験 Piscine を経て入学しました。",
@@ -112,6 +113,10 @@ const ACTIVITIES = [
   },
 ];
 
+function isExternal(href: string) {
+  return href.startsWith("http");
+}
+
 /** リンクがある項目はカード全体を押せるようにする */
 function Card({
   href,
@@ -124,12 +129,22 @@ function Card({
 
   if (!href) return <div className={className}>{children}</div>;
 
+  const hoverClassName = `group ${className} transition-colors duration-fast ease-out hover:bg-surface-hover`;
+
+  if (!isExternal(href)) {
+    return (
+      <Link href={href} className={hoverClassName}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group ${className} transition-colors duration-fast ease-out hover:bg-surface-hover`}
+      className={hoverClassName}
     >
       {children}
     </a>
@@ -205,7 +220,11 @@ export default function ActivityPage() {
                           <p className="flex items-center gap-1.5 font-bold text-foreground-strong text-lg md:text-xl">
                             {name}
                             {href ? (
-                              <IconArrowUpRight className="size-3.5 shrink-0 text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                              isExternal(href) ? (
+                                <IconArrowUpRight className="size-3.5 shrink-0 text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                              ) : (
+                                <IconCaretRight className="size-3.5 shrink-0 text-accent transition-transform duration-fast ease-out group-hover:translate-x-0.5" />
+                              )
                             ) : null}
                           </p>
                           <p className="mt-2 text-xs">{role}</p>
