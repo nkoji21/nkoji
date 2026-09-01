@@ -101,7 +101,7 @@ export default function AboutPage() {
           </section>
         </div>
 
-        <section className="mt-14 md:mt-20">
+        <section className="mt-10 md:mt-12">
           <SectionHeading eyebrow="つながる">Socials</SectionHeading>
           <div className="mt-5">
             <SocialTiles />
