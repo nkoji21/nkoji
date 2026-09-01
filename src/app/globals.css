@@ -471,13 +471,13 @@
   }
   to {
     opacity: 0;
-    translate: 0 24px;
+    translate: 0 40px;
   }
 }
 
 /* biome-ignore lint/correctness/noUnknownTypeSelector: View Transition の疑似要素を biome がまだ知らない */
 ::view-transition-old(root) {
-  animation: page-out var(--duration-base) var(--ease-out) both;
+  animation: page-out var(--duration-slow) var(--ease-out) both;
 }
 
 /*
