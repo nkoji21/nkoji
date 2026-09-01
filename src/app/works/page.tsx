@@ -20,7 +20,7 @@ const WORKS = [
     isOngoing: true,
     title: "テスト自動化プロダクトの立ち上げ開発",
     body: "立ち上げ初期のフロントエンドを、デザインから実装まで担当しています。並行して Web アプリの受託も進めていて、現地に足を運んで実機で検証したりしていました。",
-    tags: ["TypeScript", "Next.js", "Figma"],
+    tags: ["TypeScript", "React", "Next.js", "Figma"],
   },
   {
     period: "2026.02 –",
