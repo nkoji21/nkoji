@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Tag } from "@/components/ui/tag";
@@ -33,6 +34,10 @@ const WORKS = [
     title: "麻雀アプリの OGP 画像デザイン",
     body: "対局結果を SNS シェアするための OGP 画像をデザイン。縮小表示でも順位とスコアが一目で伝わるよう、順位ごとの配色と情報の階層を設計しました。",
     tags: ["Figma"],
+    image: {
+      src: "/works/mahjong-ogp.webp",
+      alt: "対局結果の OGP 画像。1位から4位までの順位・スコア・増減が並んでいる",
+    },
   },
   {
     period: "2025.10 – 2026.02",
@@ -61,40 +66,52 @@ export default function WorksPage() {
         </SectionHeading>
 
         <ul className="mt-8 md:mt-10">
-          {WORKS.map(({ period, role, isOngoing, title, body, tags }) => (
-            <li
-              key={title}
-              className="border-line border-t py-8 first:border-t-0 first:pt-0 md:grid md:grid-cols-[15rem_1fr] md:gap-12 md:py-9"
-            >
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-foreground-strong text-sm">
-                    {period}
-                  </span>
-                  {isOngoing ? (
-                    <span className="rounded-xl bg-accent px-2.5 py-0.5 text-on-accent text-xs">
-                      継続中
+          {WORKS.map(
+            ({ period, role, isOngoing, title, body, tags, image }) => (
+              <li
+                key={title}
+                className="border-line border-t py-8 first:border-t-0 first:pt-0 md:grid md:grid-cols-[15rem_1fr] md:gap-12 md:py-9"
+              >
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-foreground-strong text-sm">
+                      {period}
                     </span>
+                    {isOngoing ? (
+                      <span className="rounded-xl bg-accent px-2.5 py-0.5 text-on-accent text-xs">
+                        継続中
+                      </span>
+                    ) : null}
+                  </div>
+                  <span className="text-xs">{role}</span>
+                </div>
+
+                <div className="mt-3 flex flex-col gap-3 md:mt-0">
+                  <h2 className="font-bold text-foreground-strong md:text-lg">
+                    {title}
+                  </h2>
+                  <p className="text-sm leading-relaxed">{body}</p>
+                  <ul className="flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <li key={tag}>
+                        <Tag>{tag}</Tag>
+                      </li>
+                    ))}
+                  </ul>
+                  {image ? (
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={1200}
+                      height={630}
+                      sizes="(min-width: 48rem) 28rem, 100vw"
+                      className="mt-1 h-auto w-full max-w-112 rounded-xl border border-line"
+                    />
                   ) : null}
                 </div>
-                <span className="text-xs">{role}</span>
-              </div>
-
-              <div className="mt-3 flex flex-col gap-3 md:mt-0">
-                <h2 className="font-bold text-foreground-strong md:text-lg">
-                  {title}
-                </h2>
-                <p className="text-sm leading-relaxed">{body}</p>
-                <ul className="flex flex-wrap gap-2">
-                  {tags.map((tag) => (
-                    <li key={tag}>
-                      <Tag>{tag}</Tag>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-          ))}
+              </li>
+            ),
+          )}
         </ul>
       </div>
       <SiteFooter />
