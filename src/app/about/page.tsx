@@ -20,7 +20,7 @@ const SKILLS = [
 const ACTIVITIES = [
   {
     name: "Yamada UI",
-    role: "OSS Maintainer",
+    role: "OSS Maintainer · 2026.03–",
     href: "https://yamada-ui.com/ja/docs/community",
   },
   {
@@ -32,11 +32,6 @@ const ACTIVITIES = [
     name: "東京デザインテクノロジーセンター専門学校",
     role: "Student · 2023.04–",
     href: "https://www.tech.ac.jp/",
-  },
-  {
-    name: "InTech",
-    role: "Founder · 2024.08 – 2025.04",
-    href: "https://intech-site.vercel.app/",
   },
 ];
 

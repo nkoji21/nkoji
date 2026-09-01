@@ -30,6 +30,11 @@ export const metadata: Metadata = {
     icon: "/icon.png",
     apple: "/apple-icon.png",
   },
+  // OGP はアイコンそのものなので正方形。X では小さいサムネイルと
+  // テキストが並ぶ summary で出したい（既定の large_image だと余白が出る）
+  twitter: {
+    card: "summary",
+  },
 };
 
 export default function RootLayout({
