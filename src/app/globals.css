@@ -47,6 +47,8 @@
   --duration-fast: 150ms;
   --duration-base: 300ms;
   --duration-slow: 600ms;
+  /* 入場用。1 回しか出ないので、動いたと分かる長さを取る */
+  --duration-enter: 800ms;
 
   --tracking-logo: 0.08em;
 }
@@ -57,10 +59,32 @@
     scrollbar-gutter: stable;
   }
 
-  /* Tailwind v4 は button の cursor を既定に戻すので、押せるものは指カーソルにする */
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
-    cursor: pointer;
+  /*
+   * サイトの色で描いたドット絵カーソル。押せるものも含めページ全体で使う。
+   * 座標は画像内の hotspot（実際に「指している」点）＝機首の先端。
+   * 16x16 のドット絵を 20px で書き出しているので書き出し後の px で数える
+   * （機首はドット (1,1)、1 ドット=1.25px なので 1 1）。
+   * 読み込み失敗や未対応に備えて最後に既定値を残す。
+   * 粗いポインタ（タッチ・ペン）では独自カーソルに意味がないので当てない。
+   */
+  @media (any-pointer: fine) {
+    /*
+     * body だけだと、ブラウザ既定のスタイルが a[href] などに当てる pointer に
+     * 負けて指カーソルが出てしまう。継承より作者スタイルの指定が強いので、
+     * 自前で指カーソルになりうる要素まで含めて明示的に上書きする。
+     */
+    body,
+    a[href],
+    button,
+    [role="button"],
+    label,
+    summary,
+    select,
+    [contenteditable] {
+      cursor:
+        url("/cursor-default.svg") 1 1,
+        default;
+    }
   }
 
   body {
@@ -96,6 +120,18 @@
   }
 }
 
+/* 入場。トップの slide-up ほど大きくは動かないが、動いたと分かる量は取る */
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 var(--rise, 32px);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
 @utility anim-slide-up {
   animation: slide-up var(--duration-slow) var(--ease-out) var(--delay, 0s) both;
 }
@@ -105,8 +141,42 @@
     both;
 }
 
+@utility anim-rise {
+  animation: rise var(--duration-enter) var(--ease-out) var(--delay, 0s) both;
+}
+
 @utility anim-delay-* {
   --delay: calc(--value(integer) * 1ms);
+}
+
+/*
+ * 子要素を順にずらして出す。keyframes は 1 つだけ書き、遅延は変数で振り分ける。
+ * 要素が増えても規則は増えない（参考: github.com/yui540/css-animations, MIT）
+ */
+@utility anim-stagger {
+  & > * {
+    animation: rise var(--duration-enter) var(--ease-out) var(--delay, 0s) both;
+  }
+
+  & > *:nth-child(1) {
+    --delay: 0ms;
+  }
+  & > *:nth-child(2) {
+    --delay: 90ms;
+  }
+  & > *:nth-child(3) {
+    --delay: 180ms;
+  }
+  & > *:nth-child(4) {
+    --delay: 270ms;
+  }
+  & > *:nth-child(5) {
+    --delay: 360ms;
+  }
+  /* 6 つ目以降は待たせすぎないよう、まとめて同じ遅延にする */
+  & > *:nth-child(n + 6) {
+    --delay: 450ms;
+  }
 }
 
 @layer components {
@@ -227,4 +297,22 @@
       margin-inline: auto;
     }
   }
+}
+
+/*
+ * 動きを減らす設定を尊重する。動きは消すが、色や下線の変化は残したいので
+ * 一律に打ち消さず、時間だけをほぼ 0 にする。
+ * 音は「動き」ではないので、この設定の影響を受けない（ミュートで制御する）。
+ */
+@media (prefers-reduced-motion: reduce) {
+  /* biome-ignore-start lint/complexity/noImportantStyles: ユーティリティが直接指定する duration を確実に上書きする必要がある */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* biome-ignore-end lint/complexity/noImportantStyles: 同上 */
 }

@@ -37,14 +37,14 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export function SocialTiles() {
   return (
-    <ul className="grid grid-cols-2 gap-2.5 md:grid-cols-5 md:gap-3">
+    <ul className="anim-stagger grid grid-cols-2 gap-2.5 md:grid-cols-5 md:gap-3">
       {SOCIAL_LINKS.map(({ label, href, icon: Icon, isWide }) => (
         <li key={label}>
           <a
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-16 items-center justify-center gap-3 rounded-2xl border border-line bg-surface transition-colors duration-base ease-out hover:bg-surface-hover md:h-19"
+            className="flex h-16 items-center justify-center gap-3 rounded-2xl border border-line bg-surface transition-[background-color,transform] duration-slow ease-out hover:bg-surface-hover active:scale-97 md:h-19"
           >
             <Icon className={isWide ? "w-11" : "size-6"} />
             <span className="text-sm">{label}</span>

@@ -1,12 +1,12 @@
-import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
+import { SoundLink } from "@/components/ui/sound-link";
 import { SITE_AUTHOR } from "@/lib/site";
 
 export function AuthorCard() {
   return (
-    <Link
+    <SoundLink
       href="/about"
-      className="flex items-center gap-5 rounded-2xl bg-surface px-7 py-6.5 transition-colors duration-fast ease-out hover:bg-surface-hover"
+      className="flex items-center gap-5 rounded-2xl bg-surface px-7 py-6.5 transition-[background-color,transform] duration-fast ease-out hover:bg-surface-hover active:scale-99"
     >
       <Avatar className="size-21 shrink-0" />
       <div className="flex flex-col gap-1.5">
@@ -19,6 +19,6 @@ export function AuthorCard() {
           ))}
         </p>
       </div>
-    </Link>
+    </SoundLink>
   );
 }

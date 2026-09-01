@@ -55,7 +55,7 @@ export function PostImage({
         type="button"
         onClick={() => setZoomed(true)}
         aria-label={alt ? `${alt}を拡大する` : "画像を拡大する"}
-        className="block cursor-zoom-in transition-opacity duration-fast ease-out hover:opacity-85"
+        className="block transition-opacity duration-fast ease-out hover:opacity-85"
         style={{ maxWidth: Math.min(width, MAX_WIDTH) }}
       >
         <Image
@@ -79,7 +79,7 @@ export function PostImage({
             type="button"
             onClick={() => setZoomed(false)}
             aria-label="閉じる"
-            className="absolute inset-0 cursor-zoom-out"
+            className="absolute inset-0"
           />
           {/* 画面に収まる範囲で最大化する。w-auto のままだと元の表示幅から広がらない */}
           <div className="pointer-events-none relative flex max-h-full w-full max-w-240 items-center justify-center">

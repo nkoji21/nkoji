@@ -18,7 +18,7 @@ export function ProtectedImage({ className, ...props }: ProtectedImageProps) {
       />
       <button
         type="button"
-        className="absolute inset-0 z-10 cursor-default"
+        className="absolute inset-0 z-10"
         onContextMenu={handleContextMenu}
         aria-hidden="true"
         tabIndex={-1}

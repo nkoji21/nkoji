@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { IconArrowUpRight, IconCaretRight } from "@/components/icons";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SoundLink } from "@/components/ui/sound-link";
 
 export const metadata: Metadata = {
   title: "Activity",
@@ -129,13 +129,13 @@ function Card({
 
   if (!href) return <div className={className}>{children}</div>;
 
-  const hoverClassName = `group ${className} transition-colors duration-fast ease-out hover:bg-surface-hover`;
+  const hoverClassName = `group ${className} transition-[background-color,transform] duration-fast ease-out hover:bg-surface-hover active:scale-99`;
 
   if (!isExternal(href)) {
     return (
-      <Link href={href} className={hoverClassName}>
+      <SoundLink href={href} className={hoverClassName}>
         {children}
-      </Link>
+      </SoundLink>
     );
   }
 
@@ -166,7 +166,7 @@ function groupByYear(items: typeof ACTIVITIES) {
 export default function ActivityPage() {
   return (
     <>
-      <div className="mx-auto w-full max-w-170 flex-1 px-5 pt-10 md:pt-16">
+      <div className="anim-stagger mx-auto w-full max-w-170 flex-1 px-5 pt-10 md:pt-16">
         <SectionHeading as="h1" eyebrow="やってきたこと">
           Activity
         </SectionHeading>
