@@ -10,7 +10,7 @@ export function ShareButton({ title, slug }: { title: string; slug: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.25 text-foreground-strong text-xs transition-colors duration-fast ease-out hover:bg-surface-hover"
+      className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2.25 text-foreground-strong text-xs transition-[background-color,transform] duration-fast ease-out hover:bg-surface-hover active:scale-97"
     >
       <BrandX className="size-4" />X でシェア
     </a>

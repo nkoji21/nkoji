@@ -38,7 +38,7 @@ const ACTIVITIES = [
 export default function AboutPage() {
   return (
     <>
-      <div className="mx-auto w-full max-w-300 flex-1 px-5 pt-10 md:pt-16">
+      <div className="anim-stagger mx-auto w-full max-w-300 flex-1 px-5 pt-10 md:pt-16">
         <h1 className="font-display text-2xl text-foreground-strong md:text-3xl">
           Hi, I&apos;m Naoki Kojima.
         </h1>

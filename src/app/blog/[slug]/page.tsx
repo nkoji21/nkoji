@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AuthorCard } from "@/components/blog/author-card";
 import { formatDate } from "@/components/blog/post-card";
@@ -9,6 +8,7 @@ import { ShareButton } from "@/components/blog/share-button";
 import { TableOfContents } from "@/components/blog/table-of-contents";
 import { IconArrowLeft } from "@/components/icons";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { SoundLink } from "@/components/ui/sound-link";
 import { Tag } from "@/components/ui/tag";
 import { getAllPostMeta, getPost } from "@/lib/blog";
 import { renderMarkdown } from "@/lib/blog/render";
@@ -66,20 +66,25 @@ export default async function BlogPostPage({
 
   return (
     <>
+      {/*
+        入場アニメは記事全体ではなく、もどる導線と記事ヘッダーだけに当てる。
+        animation の付いた要素は position: fixed の基準になるため、
+        本文（画像の拡大オーバーレイを含む）を巻き込むと全画面に広がらなくなる
+      */}
       <div className="mx-auto flex w-full max-w-170 flex-1 flex-col px-5 pt-12">
-        <Link
+        <SoundLink
           href="/blog"
-          className="-mx-3.5 inline-flex items-center gap-2 self-start rounded-xl px-3.5 py-2.5 text-accent text-sm transition-colors duration-fast ease-out hover:bg-background-hover"
+          className="anim-rise -mx-3.5 inline-flex items-center gap-2 self-start rounded-xl px-3.5 py-2.5 text-accent text-sm transition-colors duration-fast ease-out hover:bg-background-hover"
         >
           {/* アイコンは行の中央に揃える。そのままだと文字より上にずれる */}
           <span className="flex h-[1lh] items-center">
             <IconArrowLeft className="size-4.5 shrink-0" />
           </span>
           記事一覧にもどる
-        </Link>
+        </SoundLink>
 
         <article className="mt-6 flex flex-col">
-          <header className="flex flex-col">
+          <header className="anim-rise anim-delay-90 flex flex-col">
             <div className="relative flex aspect-[2/1] items-center justify-center overflow-hidden rounded-2xl border border-line bg-surface">
               {meta.image ? (
                 <Image
@@ -124,7 +129,7 @@ export default async function BlogPostPage({
               href={`${CONTENT_REPO_EDIT_BASE}/${meta.slug}.md`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center rounded-xl border border-line px-4 py-2.25 text-foreground-strong text-xs transition-colors duration-fast ease-out hover:bg-surface-hover"
+              className="inline-flex items-center rounded-xl border border-line px-4 py-2.25 text-foreground-strong text-xs transition-[background-color,transform] duration-fast ease-out hover:bg-surface-hover active:scale-97"
             >
               この記事を編集する
             </a>

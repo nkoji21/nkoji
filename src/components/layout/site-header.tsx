@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { NAV_ITEMS } from "@/components/layout/nav-items";
 import { SiteControls } from "@/components/layout/site-controls";
+import { SoundLink } from "@/components/ui/sound-link";
 
 export function SiteHeader() {
   return (
@@ -9,12 +9,12 @@ export function SiteHeader() {
         <ul className="-mx-3.5 flex items-center gap-1">
           {NAV_ITEMS.map(({ href, label }) => (
             <li key={href}>
-              <Link
+              <SoundLink
                 href={href}
-                className="inline-block rounded-xl px-3.5 py-1.5 text-foreground transition-colors duration-fast ease-out hover:bg-background-hover hover:text-foreground-strong"
+                className="inline-block rounded-xl px-3.5 py-1.5 text-foreground transition-[color,background-color,transform] duration-fast ease-out hover:bg-background-hover hover:text-foreground-strong active:scale-97"
               >
                 {label}
-              </Link>
+              </SoundLink>
             </li>
           ))}
         </ul>

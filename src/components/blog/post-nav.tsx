@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { SoundLink } from "@/components/ui/sound-link";
 import type { PostMeta } from "@/lib/blog";
 
 function NavCard({
@@ -11,9 +11,9 @@ function NavCard({
   align: "start" | "end";
 }) {
   return (
-    <Link
+    <SoundLink
       href={`/blog/${post.slug}`}
-      className="flex flex-col gap-2 rounded-2xl border border-line px-5 py-4 transition-colors duration-fast ease-out hover:bg-surface-hover"
+      className="flex flex-col gap-2 rounded-2xl border border-line px-5 py-4 transition-[background-color,transform] duration-fast ease-out hover:bg-surface-hover active:scale-99"
     >
       {/* 見出しだけ端に寄せる。タイトルは左揃えのまま */}
       <span
@@ -22,7 +22,7 @@ function NavCard({
         {label}
       </span>
       <span className="text-foreground-strong text-sm">{post.title}</span>
-    </Link>
+    </SoundLink>
   );
 }
 

@@ -19,7 +19,7 @@ const DM_CHANNELS = [
 
 export default function ContactPage() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-9 px-5 py-16">
+    <div className="anim-stagger flex flex-1 flex-col items-center justify-center gap-9 px-5 py-16">
       <Avatar className="size-37 md:size-63" />
 
       <div className="flex flex-col items-center gap-5">
