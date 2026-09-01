@@ -44,17 +44,23 @@
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   /*
-   * 入場の着地用。行き過ぎは 1% ほどに留め、終わりの傾きをほぼ 0 にして
-   * ぴたっと止まらずそっと収まるようにする。
-   * bounce（最大 110%）は跳ねが目立ち、止まる瞬間が硬い
+   * 入場の着地用。序盤で一気に進み、残りの長い時間をかけて減速しきる。
+   * 半分まで 3% で到達し、そこから 97% を惰性で流すので、
+   * 止まる瞬間が来ても速度がほぼ 0 になっていて「急に止まった」と感じない。
+   * 参考: danimarustudio.com（yui540）
    */
-  --ease-settle: cubic-bezier(0.25, 1.2, 0.35, 1);
+  --ease-settle: cubic-bezier(0, 0.83, 0.11, 0.99);
 
   --duration-fast: 150ms;
   --duration-base: 300ms;
   --duration-slow: 600ms;
   /* 入場用。1 回しか出ないので、動いたと分かる長さを取る */
   --duration-enter: 800ms;
+  /*
+   * トップの入場用。ease-settle と組で使う。
+   * 読み終えたころに次が現れるくらいの間を取りたいので、他より長い
+   */
+  --duration-hero: 1400ms;
 
   --tracking-logo: 0.08em;
 }
@@ -163,8 +169,18 @@
   animation: rise var(--duration-enter) var(--ease-out) var(--delay, 0s) both;
 }
 
+/*
+ * トップ専用の入場。他ページの anim-slide-up / anim-rise より長く、
+ * 減速しきる ease-settle で着地する。
+ * 共通の utility を伸ばすと記事一覧なども間延びするので分けている
+ */
+@utility anim-hero-up {
+  animation: slide-up var(--duration-hero) var(--ease-settle) var(--delay, 0s)
+    both;
+}
+
 @utility anim-float-up {
-  animation: float-up var(--duration-enter) var(--ease-settle) var(--delay, 0s)
+  animation: float-up var(--duration-hero) var(--ease-settle) var(--delay, 0s)
     both;
 }
 
