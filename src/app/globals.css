@@ -254,7 +254,8 @@
  * ただし速すぎると閉じたことに気づけないので、開くときの半分は取る
  */
 @utility anim-pop-out {
-  animation: pop-out var(--duration-base) var(--ease-out) both;
+  /* 200ms はトークンにない。mobile-nav の CLOSE_MS と対で持つ値なので直に書く */
+  animation: pop-out 200ms var(--ease-out) both;
 }
 
 @utility anim-rise {

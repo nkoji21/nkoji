@@ -12,8 +12,8 @@ import { NAV_ITEMS } from "@/components/layout/nav-items";
 import { SoundLink } from "@/components/ui/sound-link";
 import { playSound, useSound } from "@/lib/sound";
 
-/** globals.css の anim-pop-out（--duration-base）と揃える */
-const CLOSE_MS = 300;
+/** globals.css の anim-pop-out と揃える */
+const CLOSE_MS = 200;
 
 /**
  * 下部中央に置くのは、左右どちらの親指からも等距離にするため。
