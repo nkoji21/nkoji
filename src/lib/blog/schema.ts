@@ -11,6 +11,8 @@ export const frontmatterSchema = z.object({
   topic: z.string().min(1),
   draft: z.boolean().default(false),
   image: z.string().optional(),
+  /** OGP と検索結果に出る 1 行。本文の冒頭は挨拶で始まりがちなので手で書く */
+  description: z.string().min(1).optional(),
 });
 
 export type Frontmatter = z.infer<typeof frontmatterSchema>;

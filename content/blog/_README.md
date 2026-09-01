@@ -9,6 +9,7 @@ date: 2026-08-28
 topic: Rust
 draft: false
 image: /blog/<slug>/cover.webp
+description: 記事の内容を1行で
 ---
 ```
 
@@ -19,6 +20,11 @@ image: /blog/<slug>/cover.webp
 | `topic` | 必須。一覧の絞り込みに使う |
 | `draft` | 省略時 `false`。`true` は開発時のみ表示 |
 | `image` | 省略可。一覧のカードと記事上部に出る |
+| `description` | 省略可。SNS のカードと検索結果に出る |
+
+`description` は本文から自動で作らない。記事は挨拶や導入から始まることが多く、
+冒頭をそのまま切り出しても何の話か伝わらないため。
+省略するとサイト全体の説明文が代わりに出る。
 
 画像は `public/blog/<slug>/` に置いて、`/blog/<slug>/xxx.webp` で参照する。
 記事だけを別リポジトリへ移せるよう、本文は素の Markdown のまま保つ（MDX にしない）。

@@ -26,10 +26,15 @@ export async function generateMetadata({
   const post = await getPost((await params).slug);
   if (!post) return {};
 
+  const { description } = post.meta;
+
   return {
     title: post.meta.title,
+    // 未設定ならルートの説明文が継承される
+    ...(description && { description }),
     openGraph: {
       title: post.meta.title,
+      ...(description && { description }),
       type: "article",
       publishedTime: post.meta.date,
     },
