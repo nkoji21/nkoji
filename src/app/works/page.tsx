@@ -29,7 +29,7 @@ const WORKS = [
     role: "業務委託 · フロントエンド / デザイン",
     isOngoing: true,
     title: "音声AIプロダクトのフロントエンド開発",
-    body: "Next.js と TypeScript でフロントエンド全体を設計・実装しています。Figma でのデザインシステム構築から UX リサーチ、CI/CD の整備まで担当しました。",
+    body: "フロントエンド全体の設計・実装に加えて、デザインシステムの構築から UX リサーチ、CI/CD の整備まで担当しています。",
     tags: ["TypeScript", "Next.js", "Figma", "GitHub Actions"],
   },
   {
@@ -52,7 +52,7 @@ const WORKS = [
     role: "インターン · バックエンド",
     isOngoing: false,
     title: "建築業界向け LLM チャットアプリケーション",
-    body: "BtoB 向け LLM チャットアプリのバックエンドを担当。Go と Python で API を設計・実装し、表形式のデータをエージェントが扱いやすい形に整える仕組みをつくりました。",
+    body: "バックエンドの API 設計と実装を担当。エージェントが表形式のデータを扱えるようにする部分をつくりました。",
     tags: ["Go", "Python"],
   },
   {
@@ -62,7 +62,7 @@ const WORKS = [
     role: "インターン · フロントエンド",
     isOngoing: false,
     title: "CtoC マッチングアプリ",
-    body: "React でフロントエンド開発を担当。メンターから技術の学び方を教わりました。TanStack のライブラリを深掘りしたり、技術ブログを読む習慣がついたのもこの頃です。",
+    body: "フロントエンド開発を担当。メンターから技術の学び方を教わりました。ライブラリを深掘りしたり、技術ブログを読む習慣がついたのもこの頃です。",
     tags: ["React", "TypeScript", "TanStack Query"],
   },
   {
@@ -82,7 +82,7 @@ const WORKS = [
     role: "インターン · フロントエンド",
     isOngoing: false,
     title: "DX プロダクトの 0→1 開発",
-    body: "Next.js と Supabase で、立ち上げ段階のプロダクト開発を経験しました。KJ法をはじめて教わったのもここでした。",
+    body: "立ち上げ段階のプロダクト開発を経験しました。KJ法をはじめて教わったのもここでした。",
     tags: ["Next.js", "Supabase"],
   },
   {
@@ -92,7 +92,7 @@ const WORKS = [
     role: "インターン · Web開発",
     isOngoing: false,
     title: "はじめてのインターン",
-    body: "専門学校1年の夏、まだ制作物が何もない状態で受け入れてもらった最初の会社です。Progate で基礎を学ぶところから始めて、Ruby on Rails で成果物をつくりました。",
+    body: "専門学校1年の夏、まだ制作物が何もない状態で受け入れてもらった最初の会社です。基礎を学ぶところから始めて、成果物をつくりました。",
     tags: ["Ruby on Rails"],
   },
 ];
