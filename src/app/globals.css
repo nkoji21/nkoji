@@ -145,10 +145,12 @@
   from {
     opacity: 1;
     scale: 1;
+    translate: 0 0;
   }
   to {
     opacity: 0;
-    scale: 0.95;
+    scale: 0.92;
+    translate: 0 12px;
   }
 }
 
@@ -246,11 +248,13 @@
 }
 
 /*
- * 閉じる動き。開くときの跳ねは使わず、短く素直に引く。
- * 閉じるのは「もう用は済んだ」動きなので、跳ねると往生際が悪く見える
+ * 閉じる動き。縮みながら下へ引く。画面下端から出るパネルなので、
+ * 沈んで消えるほうが向きが揃う。
+ * 開くときの跳ねは使わない。閉じ際に跳ねると往生際が悪く見える。
+ * ただし速すぎると閉じたことに気づけないので、開くときの半分は取る
  */
 @utility anim-pop-out {
-  animation: pop-out var(--duration-fast) var(--ease-out) both;
+  animation: pop-out var(--duration-base) var(--ease-out) both;
 }
 
 @utility anim-rise {
