@@ -64,10 +64,12 @@
   /* 入場用。1 回しか出ないので、動いたと分かる長さを取る */
   --duration-enter: 800ms;
   /*
-   * トップの入場用。ease-settle と組で使う。
-   * 読み終えたころに次が現れるくらいの間を取りたいので、他より長い
+   * トップの入場用。
+   * 参考にした danimarustudio.com は、要素が動く transform をおおむね
+   * 0.5〜0.8s で回している。長すぎると跳ねが間延びして締まらないので合わせる
    */
-  --duration-hero: 1400ms;
+  --duration-hero: 800ms;
+  --duration-spring: 800ms;
 
   --tracking-logo: 0.08em;
 }
@@ -139,11 +141,15 @@
   }
 }
 
-/* 下から持ち上がって着地する。トップのアイコン用 */
+/*
+ * 下から持ち上がって着地する。トップのアイコン用。
+ * 移動量は変数にしておく。ばねの曲線は着地後に少し沈むので、
+ * 移動量を増やすとその沈み込みも比例して大きくなり、跳ねがはっきりする
+ */
 @keyframes float-up {
   from {
     opacity: 0;
-    translate: 0 40px;
+    translate: 0 var(--float-distance, 40px);
   }
   to {
     opacity: 1;
@@ -247,9 +253,13 @@
     both;
 }
 
-/* ばねで着地するアイコン用。行って戻ってから収まる */
+/*
+ * ばねで着地するアイコン用。行き過ぎて、沈んでから収まる。
+ * 大きく動かしたほうが沈み込みが見えるので、移動量も他より取る
+ */
 @utility anim-float-up-spring {
-  animation: float-up var(--duration-hero) var(--ease-spring) var(--delay, 0s)
+  --float-distance: 80px;
+  animation: float-up var(--duration-spring) var(--ease-spring) var(--delay, 0s)
     both;
 }
 
@@ -260,13 +270,13 @@
  */
 @utility anim-float-up-elastic {
   animation:
-    float-up-elastic var(--duration-hero) linear var(--delay, 0s) both,
+    float-up-elastic var(--duration-spring) linear var(--delay, 0s) both,
     fade-in var(--duration-base) var(--ease-out) var(--delay, 0s) both;
 }
 
 @utility anim-float-up-bounce {
   animation:
-    float-up-bounce var(--duration-hero) linear var(--delay, 0s) both,
+    float-up-bounce var(--duration-spring) linear var(--delay, 0s) both,
     fade-in var(--duration-base) var(--ease-out) var(--delay, 0s) both;
 }
 
