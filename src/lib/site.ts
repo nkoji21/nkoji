@@ -1,4 +1,4 @@
-export const SITE_URL = "https://nkoji.me";
+export const SITE_URL = "https://www.nkoji.me";
 
 export const SITE_AUTHOR = {
   name: "Naoki Kojima",
