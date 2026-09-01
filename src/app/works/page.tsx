@@ -29,7 +29,7 @@ const WORKS = [
     role: "業務委託 · フロントエンド / デザイン",
     isOngoing: true,
     title: "音声AIプロダクトのフロントエンド開発",
-    body: "フロントエンド全体の設計・実装に加えて、デザインシステムの構築から UX リサーチ、CI/CD の整備まで担当しています。",
+    body: "フロントエンド全体の設計・実装に加えて、デザインシステムの構築から UX リサーチ、CI/CD の整備まで担当しました。",
     tags: ["TypeScript", "Next.js", "Figma", "GitHub Actions"],
   },
   {
