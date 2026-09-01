@@ -62,7 +62,7 @@ const WORKS = [
     role: "インターン · フロントエンド",
     isOngoing: false,
     title: "CtoC マッチングアプリ",
-    body: "React でフロントエンド開発を担当。メンターに TanStack Query を一から教わりました。ユーザーの行動ログから課題を見つけて実装まで持っていく流れを学べたのが大きかったです。",
+    body: "React でフロントエンド開発を担当。メンターから技術の学び方を教わりました。TanStack のライブラリを深掘りしたり、技術ブログを読む習慣がついたのもこの頃です。",
     tags: ["React", "TypeScript", "TanStack Query"],
   },
   {
