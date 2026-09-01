@@ -38,10 +38,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
-      <body
-        className={`${mplus.variable} ${titanOne.variable} flex min-h-dvh flex-col`}
-      >
+    // フォント変数は html に置く。Tailwind の preflight が html で参照するため
+    <html lang="ja" className={`${mplus.variable} ${titanOne.variable}`}>
+      <body className="flex min-h-dvh flex-col">
         <div className="pt-12">
           <SiteHeader />
         </div>
