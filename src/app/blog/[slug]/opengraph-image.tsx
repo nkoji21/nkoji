@@ -99,29 +99,20 @@ export default async function Image({
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ height: 1, background: COLOR.line }} />
+        {/* 署名はタイトルと左端を揃える。行数が変わっても表情を保つ */}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {/* biome-ignore lint/performance/noImgElement: Satori は next/image を解釈しない */}
+          <img
+            src={`data:image/jpeg;base64,${avatar.toString("base64")}`}
+            width={60}
+            height={60}
+            style={{ borderRadius: 999 }}
+            alt=""
+          />
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 16,
-              paddingTop: 32,
-            }}
+            style={{ fontSize: 22, fontWeight: 700, color: COLOR.foreground }}
           >
-            {/* biome-ignore lint/performance/noImgElement: Satori は next/image を解釈しない */}
-            <img
-              src={`data:image/jpeg;base64,${avatar.toString("base64")}`}
-              width={60}
-              height={60}
-              style={{ borderRadius: 999 }}
-              alt=""
-            />
-            <div
-              style={{ fontSize: 22, fontWeight: 700, color: COLOR.foreground }}
-            >
-              {SITE_AUTHOR.name}
-            </div>
+            {SITE_AUTHOR.name}
           </div>
         </div>
       </div>
