@@ -17,14 +17,14 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls={listId}
-        className="-mx-2 flex items-center gap-1.5 rounded-lg px-2 py-1 transition-colors duration-fast ease-out hover:bg-surface-hover"
+        className="group flex items-center gap-1.5"
       >
-        <span className="font-bold text-accent text-xs tracking-[0.16em]">
+        <IconCaretDown
+          className={`size-4 shrink-0 text-accent transition-[transform,color] duration-fast ease-out group-hover:text-accent-hover ${open ? "" : "-rotate-90"}`}
+        />
+        <span className="font-bold text-accent text-xs tracking-[0.16em] transition-colors duration-fast ease-out group-hover:text-accent-hover">
           もくじ
         </span>
-        <IconCaretDown
-          className={`size-4 shrink-0 text-accent transition-transform duration-fast ease-out ${open ? "" : "-rotate-90"}`}
-        />
       </button>
 
       {open ? (
