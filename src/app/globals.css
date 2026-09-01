@@ -4,6 +4,7 @@
   --gray-97: oklch(97% 0.006 210);
   --gray-95: oklch(95.5% 0.008 210);
   --gray-93: oklch(93% 0.01 210);
+  --gray-89: oklch(89% 0.011 210);
   --gray-85: oklch(85% 0.012 210);
   --gray-47: oklch(47% 0.01 200);
   --gray-32: oklch(32% 0.01 200);
@@ -21,6 +22,8 @@
   --color-background: var(--gray-93);
   --color-surface: var(--gray-97);
   --color-surface-hover: var(--gray-95);
+  /* 背景そのものの上に重ねる用。surface-hover より暗い */
+  --color-background-hover: var(--gray-89);
   --color-line: var(--gray-85);
   --color-foreground: var(--gray-47);
   --color-foreground-strong: var(--gray-32);
@@ -33,7 +36,9 @@
   --color-brand-mark-github: var(--brand-github);
   --color-brand-mark-discord: var(--brand-discord);
 
-  --font-sans: var(--font-zen-kaku), sans-serif;
+  --font-sans: var(--font-mplus), sans-serif;
+  /* Tailwind の preflight が html に当てる既定フォントも揃える */
+  --default-font-family: var(--font-sans);
   --font-display: var(--font-titan-one), sans-serif;
 
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -47,12 +52,19 @@
 }
 
 @layer base {
+  /* Tailwind v4 は button の cursor を既定に戻すので、押せるものは指カーソルにする */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
   body {
     background: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    /* 400 だと細く感じるので本文は 500 を既定にする */
+    font-weight: 500;
     line-height: 1.85;
-    -webkit-font-smoothing: antialiased;
     word-break: auto-phrase;
   }
 }

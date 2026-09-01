@@ -4,23 +4,22 @@ import { SiteControls } from "@/components/layout/site-controls";
 
 export function SiteHeader() {
   return (
-    <header className="mx-auto hidden w-full max-w-300 items-center justify-between px-5 md:flex">
+    <header className="mx-auto flex w-full max-w-300 items-center justify-between px-5">
       <nav>
-        <ul className="flex items-center gap-6">
+        <ul className="-mx-3.5 flex items-center gap-1">
           {NAV_ITEMS.map(({ href, label }) => (
             <li key={href}>
               <Link
                 href={href}
-                className="group relative inline-block pb-1 text-foreground transition-colors duration-fast ease-out hover:text-accent"
+                className="inline-block rounded-xl px-3.5 py-1.5 text-foreground transition-colors duration-fast ease-out hover:bg-background-hover hover:text-foreground-strong"
               >
                 {label}
-                <span className="absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 bg-accent transition-transform duration-base ease-bounce group-hover:origin-left group-hover:scale-x-100" />
               </Link>
             </li>
           ))}
         </ul>
       </nav>
-      <SiteControls />
+      <SiteControls className="-mr-2.5" />
     </header>
   );
 }

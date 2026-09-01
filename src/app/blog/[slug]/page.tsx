@@ -27,7 +27,7 @@ export async function generateMetadata({
   if (!post) return {};
 
   return {
-    title: `${post.meta.title} | nkoji`,
+    title: post.meta.title,
     openGraph: {
       title: post.meta.title,
       type: "article",
@@ -53,9 +53,12 @@ export default async function BlogPostPage({
       <div className="mx-auto flex w-full max-w-170 flex-1 flex-col px-5 pt-12">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 self-start text-accent text-sm hover:underline"
+          className="-mx-3.5 inline-flex items-center gap-2 self-start rounded-xl px-3.5 py-2.5 text-accent text-sm transition-colors duration-fast ease-out hover:bg-background-hover"
         >
-          <IconArrowLeft className="size-4.5" />
+          {/* アイコンは行の中央に揃える。そのままだと文字より上にずれる */}
+          <span className="flex h-[1lh] items-center">
+            <IconArrowLeft className="size-4.5 shrink-0" />
+          </span>
           記事一覧にもどる
         </Link>
 
@@ -76,7 +79,7 @@ export default async function BlogPostPage({
               )}
             </div>
 
-            <h1 className="mt-7 font-display text-2xl text-foreground-strong leading-[1.4] md:text-[2rem]">
+            <h1 className="mt-7 font-bold text-2xl text-foreground-strong leading-[1.4] md:text-[2rem]">
               {meta.title}
             </h1>
 

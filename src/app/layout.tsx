@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Titan_One, Zen_Kaku_Gothic_New } from "next/font/google";
+import { M_PLUS_1, Titan_One } from "next/font/google";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SiteHeader } from "@/components/layout/site-header";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 
-const zenKaku = Zen_Kaku_Gothic_New({
-  weight: ["400", "700"],
+const mplus = M_PLUS_1({
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-zen-kaku",
+  variable: "--font-mplus",
 });
 
 const titanOne = Titan_One({
@@ -21,7 +21,10 @@ const titanOne = Titan_One({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "nkoji",
+  title: {
+    default: "nkoji",
+    template: "%s / nkoji",
+  },
   description: "nkoji's website",
   icons: {
     icon: "/icon.png",
@@ -35,11 +38,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
-      <body
-        className={`${zenKaku.variable} ${titanOne.variable} flex min-h-dvh flex-col antialiased`}
-      >
-        <div className="pt-12">
+    // フォント変数は html に置く。Tailwind の preflight が html で参照するため
+    <html lang="ja" className={`${mplus.variable} ${titanOne.variable}`}>
+      <body className="flex min-h-dvh flex-col">
+        {/* ヘッダーはモバイルでは出さないので、余白ごと隠す */}
+        <div className="hidden pt-12 md:block">
           <SiteHeader />
         </div>
         <main className="flex flex-1 flex-col">{children}</main>

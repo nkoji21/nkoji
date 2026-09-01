@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { getAllPostMeta } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "Blog | nkoji",
+  title: "Blog",
   description: "つくったものや学んだことの記録。",
 };
 
