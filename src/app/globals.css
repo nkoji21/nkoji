@@ -52,6 +52,11 @@
 }
 
 @layer base {
+  /* スクロールバーの有無でページ幅が変わらないようにする */
+  html {
+    scrollbar-gutter: stable;
+  }
+
   /* Tailwind v4 は button の cursor を既定に戻すので、押せるものは指カーソルにする */
   button:not(:disabled),
   [role="button"]:not(:disabled) {
