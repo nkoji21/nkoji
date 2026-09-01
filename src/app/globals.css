@@ -50,6 +50,13 @@
    * 参考: danimarustudio.com（yui540）
    */
   --ease-settle: cubic-bezier(0, 0.83, 0.11, 0.99);
+  /*
+   * ばねのように行って戻って落ち着く。
+   * 35% で 101% まで行き過ぎ、80% あたりで 91.5% まで沈み、そこから 100% へ収まる。
+   * 弾む動きだが跳ね幅は 1% 前後なので、派手になりすぎない。
+   * danimarustudio.com（yui540）が最も多く使っている値をそのまま借りている
+   */
+  --ease-spring: cubic-bezier(0.19, 1.74, 0.47, 0.62);
 
   --duration-fast: 150ms;
   --duration-base: 300ms;
@@ -144,6 +151,62 @@
   }
 }
 
+/* 位置と透明度を別々に動かしたいとき用 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * 行き過ぎてから揺れて収まる動き（easings.net の easeOutElastic）。
+ * cubic-bezier は行って戻るのが 1 回までなので、複数回のゆれは表現できない。
+ * そのため関数の折り返し点を keyframes に書き出している。
+ * 中間はブラウザが補間するので、timing-function は linear を指定する
+ */
+@keyframes float-up-elastic {
+  0% {
+    translate: 0 40px;
+  }
+  13.5% {
+    translate: 0 -14.92px;
+  }
+  28.4% {
+    translate: 0 5.28px;
+  }
+  43.5% {
+    translate: 0 -1.87px;
+  }
+  58.5% {
+    translate: 0 0.66px;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* 床に落ちて弾む動き（easings.net の easeOutBounce）。行き過ぎはしない */
+@keyframes float-up-bounce {
+  0% {
+    translate: 0 40px;
+  }
+  54.5% {
+    translate: 0 10px;
+  }
+  81.8% {
+    translate: 0 2.5px;
+  }
+  95.5% {
+    translate: 0 0.62px;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
 /* 入場。トップの slide-up ほど大きくは動かないが、動いたと分かる量は取る */
 @keyframes rise {
   from {
@@ -182,6 +245,29 @@
 @utility anim-float-up {
   animation: float-up var(--duration-hero) var(--ease-settle) var(--delay, 0s)
     both;
+}
+
+/* ばねで着地するアイコン用。行って戻ってから収まる */
+@utility anim-float-up-spring {
+  animation: float-up var(--duration-hero) var(--ease-spring) var(--delay, 0s)
+    both;
+}
+
+/*
+ * ゆれながら着地するアイコン用。
+ * 位置は keyframes が持つので linear で流し、透明度だけ別に短く重ねる。
+ * 揺れ終わるまで薄いままだと登場が鈍く見えるため、フェードは先に終わらせる
+ */
+@utility anim-float-up-elastic {
+  animation:
+    float-up-elastic var(--duration-hero) linear var(--delay, 0s) both,
+    fade-in var(--duration-base) var(--ease-out) var(--delay, 0s) both;
+}
+
+@utility anim-float-up-bounce {
+  animation:
+    float-up-bounce var(--duration-hero) linear var(--delay, 0s) both,
+    fade-in var(--duration-base) var(--ease-out) var(--delay, 0s) both;
 }
 
 @utility anim-delay-* {
