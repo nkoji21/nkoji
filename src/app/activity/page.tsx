@@ -217,13 +217,14 @@ export default function ActivityPage() {
                         </div>
 
                         <Card href={href}>
-                          <p className="flex items-center gap-1.5 font-bold text-foreground-strong text-lg md:text-xl">
+                          {/* アイコンは inline で置く。flex にすると長い名前が折り返せない */}
+                          <p className="font-bold text-foreground-strong text-lg md:text-xl">
                             {name}
                             {href ? (
                               isExternal(href) ? (
-                                <IconArrowUpRight className="size-3.5 shrink-0 text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                                <IconArrowUpRight className="ml-1.5 inline size-3.5 align-middle text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                               ) : (
-                                <IconCaretRight className="size-3.5 shrink-0 text-accent transition-transform duration-fast ease-out group-hover:translate-x-0.5" />
+                                <IconCaretRight className="ml-1.5 inline size-3.5 align-middle text-accent transition-transform duration-fast ease-out group-hover:translate-x-0.5" />
                               )
                             ) : null}
                           </p>

@@ -86,11 +86,12 @@ export default function AboutPage() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex flex-col gap-0.5"
+                    className="group flex flex-col gap-0.5"
                   >
-                    <span className="inline-flex items-center gap-1.5 font-bold text-foreground-strong text-sm md:text-base">
+                    {/* アイコンは inline で置く。flex にすると長い名前が折り返せない */}
+                    <span className="font-bold text-foreground-strong text-sm md:text-base">
                       {name}
-                      <IconArrowUpRight className="size-3.5 text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                      <IconArrowUpRight className="ml-1.5 inline size-3.5 align-middle text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                     </span>
                     <span className="text-xs">{role}</span>
                   </a>
