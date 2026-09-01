@@ -2,11 +2,17 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from "react";
 
-export type SoundName = "click";
+export type SoundName = "click" | "hover";
 
 const STORAGE_KEY = "nkoji:sound";
-/** 連続で鳴っても不快にならない音量 */
-const VOLUME = 0.6;
+/*
+ * 連続で鳴っても不快にならない音量。
+ * ホバーは通り過ぎるだけでも鳴るぶん回数が多いので、クリックより控えめにする。
+ */
+const VOLUME: Record<SoundName, number> = {
+  click: 0.6,
+  hover: 0.25,
+};
 
 /*
  * 音は Web Audio で鳴らす。
@@ -100,7 +106,7 @@ function play(name: SoundName) {
   source.buffer = buffer;
 
   const gain = ctx.createGain();
-  gain.gain.value = VOLUME;
+  gain.gain.value = VOLUME[name];
 
   source.connect(gain).connect(ctx.destination);
   source.start();
@@ -143,6 +149,7 @@ function setupSound() {
   didSetup = true;
 
   load("click");
+  load("hover");
 
   document.addEventListener("pointerdown", (event) => {
     unlock();
@@ -154,6 +161,36 @@ function setupSound() {
     }
   });
   document.addEventListener("keydown", unlock);
+
+  /*
+   * ホバー音。
+   *
+   * pointerover は指のタップでも飛んでくるので、マウスのときだけ鳴らす。
+   * そうしないとスマホで、触るたびホバー音とクリック音が重なる。
+   *
+   * 同じ要素の中で子から子へ移ったときは鳴らさない。
+   * 文字からアイコンへ移っただけで鳴り直すと、うるさく感じるため。
+   */
+  let hovered: Element | null = null;
+
+  document.addEventListener("pointerover", (event) => {
+    if (event.pointerType !== "mouse") return;
+
+    const target = event.target as Element | null;
+    const pressable = target?.closest?.(PRESSABLE) ?? null;
+    if (pressable === hovered) return;
+
+    hovered = pressable;
+    // 音を消すためのボタンで音を鳴らさない。押したときと揃える
+    if (pressable && !pressable.closest(SOUND_TOGGLE)) play("hover");
+  });
+
+  // 押せるものから外れたら、次に戻ってきたとき鳴るように印を消す
+  document.addEventListener("pointerout", (event) => {
+    if (event.pointerType !== "mouse") return;
+    const next = (event as PointerEvent).relatedTarget as Element | null;
+    if (!next?.closest?.(PRESSABLE)) hovered = null;
+  });
 }
 
 /**
