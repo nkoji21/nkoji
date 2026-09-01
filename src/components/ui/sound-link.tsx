@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { ComponentProps } from "react";
 import { playSound } from "@/lib/sound";
 
@@ -18,6 +18,7 @@ const LEAVE_MS = 600;
  */
 export function SoundLink({ onClick, ...props }: ComponentProps<typeof Link>) {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Link
@@ -40,6 +41,17 @@ export function SoundLink({ onClick, ...props }: ComponentProps<typeof Link>) {
           event.altKey ||
           event.button !== 0
         ) {
+          return;
+        }
+
+        /*
+         * いま開いているページ自身へのリンクは、退場させずその場に留める。
+         * パスが変わらないと遷移先の LeaveReset が動かないので、
+         * 消えたまま戻ってこなくなるため。
+         * クエリやハッシュが付いていれば移動が起きるので、そのまま通す。
+         */
+        if (href === pathname) {
+          event.preventDefault();
           return;
         }
 
