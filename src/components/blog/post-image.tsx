@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IconX } from "@/components/icons";
+import { playSound } from "@/lib/sound";
 
 /** 本文の幅いっぱいには広げず、読みやすい大きさに抑える */
 const MAX_WIDTH = 420;
@@ -24,11 +25,22 @@ export function PostImage({
 }) {
   const [zoomed, setZoomed] = useState(false);
 
+  // 開閉の入口が複数あるので、音は各所に書かずここへ集約する。
+  // Escape の購読が毎レンダーで張り直されないよう、関数の同一性を保つ
+  const open = useCallback(() => {
+    playSound("click");
+    setZoomed(true);
+  }, []);
+  const close = useCallback(() => {
+    playSound("click");
+    setZoomed(false);
+  }, []);
+
   useEffect(() => {
     if (!zoomed) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setZoomed(false);
+      if (e.key === "Escape") close();
     };
     document.addEventListener("keydown", onKeyDown);
 
@@ -40,7 +52,7 @@ export function PostImage({
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = overflow;
     };
-  }, [zoomed]);
+  }, [zoomed, close]);
 
   if (!src) return null;
 
@@ -53,7 +65,7 @@ export function PostImage({
     <>
       <button
         type="button"
-        onClick={() => setZoomed(true)}
+        onClick={open}
         aria-label={alt ? `${alt}を拡大する` : "画像を拡大する"}
         className="block transition-opacity duration-fast ease-out hover:opacity-85"
         style={{ maxWidth: Math.min(width, MAX_WIDTH) }}
@@ -77,7 +89,7 @@ export function PostImage({
           {/* 画像の外どこを押しても閉じる。Escape でも閉じられる */}
           <button
             type="button"
-            onClick={() => setZoomed(false)}
+            onClick={close}
             aria-label="閉じる"
             className="absolute inset-0"
           />
@@ -95,7 +107,7 @@ export function PostImage({
           </div>
           <button
             type="button"
-            onClick={() => setZoomed(false)}
+            onClick={close}
             aria-label="閉じる"
             className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full bg-surface text-foreground-strong transition-colors duration-fast ease-out hover:bg-surface-hover"
           >
