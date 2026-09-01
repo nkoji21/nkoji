@@ -81,14 +81,17 @@ export function PostImage({
             aria-label="閉じる"
             className="absolute inset-0 cursor-zoom-out"
           />
-          <Image
-            src={src}
-            alt={alt ?? ""}
-            width={width}
-            height={height}
-            sizes="100vw"
-            className="pointer-events-none relative max-h-full w-auto object-contain"
-          />
+          {/* 画面に収まる範囲で最大化する。w-auto のままだと元の表示幅から広がらない */}
+          <div className="pointer-events-none relative flex max-h-full w-full max-w-240 items-center justify-center">
+            <Image
+              src={src}
+              alt={alt ?? ""}
+              width={width}
+              height={height}
+              sizes="100vw"
+              className="h-auto max-h-[90dvh] w-full object-contain"
+            />
+          </div>
           <button
             type="button"
             onClick={() => setZoomed(false)}

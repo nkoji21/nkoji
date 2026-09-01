@@ -19,7 +19,7 @@ export function SiteHeader() {
           ))}
         </ul>
       </nav>
-      <SiteControls />
+      <SiteControls className="-mr-2.5" />
     </header>
   );
 }

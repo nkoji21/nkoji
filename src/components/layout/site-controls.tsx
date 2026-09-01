@@ -5,12 +5,12 @@ import {
 } from "@/components/icons";
 
 const BUTTON_CLASS =
-  "group -m-2.5 rounded-xl p-2.5 text-foreground transition-colors duration-fast ease-out hover:bg-background-hover hover:text-accent";
+  "group rounded-xl p-2.5 text-foreground transition-colors duration-fast ease-out hover:bg-background-hover hover:text-accent";
 
 // TODO: 見た目のみ。切り替えの実装は後続の PR で行う
 export function SiteControls({ className }: { className?: string }) {
   return (
-    <div className={`flex items-center gap-1 ${className ?? ""}`}>
+    <div className={`flex items-center gap-2 ${className ?? ""}`}>
       <button
         type="button"
         aria-label="効果音を切り替える"
