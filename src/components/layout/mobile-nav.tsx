@@ -122,6 +122,7 @@ export function MobileNav() {
               <button
                 type="button"
                 onClick={toggleSound}
+                data-sound-toggle
                 aria-pressed={isSoundEnabled}
                 className="flex w-full items-center justify-between rounded-xl py-2.5 pr-3.5 pl-8.5 transition-colors duration-fast ease-out hover:bg-white/10 active:scale-97"
               >

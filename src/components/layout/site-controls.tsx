@@ -14,6 +14,7 @@ export function SiteControls({ className }: { className?: string }) {
       <button
         type="button"
         onClick={toggle}
+        data-sound-toggle
         aria-label="効果音を切り替える"
         aria-pressed={isEnabled}
         className={BUTTON_CLASS}
