@@ -33,6 +33,11 @@ const ACTIVITIES = [
     role: "Student · 2023.04–",
     href: "https://www.tech.ac.jp/",
   },
+  {
+    name: "InTech",
+    role: "Founder · 2024.08–",
+    href: "https://intech-site.vercel.app/",
+  },
 ];
 
 export default function AboutPage() {

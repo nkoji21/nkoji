@@ -59,6 +59,33 @@ const WORKS = [
     body: "React でフロントエンド開発を担当。楽観的更新などで操作後の待ち時間をなくし、ユーザーの行動ログを見ながら改善を重ねました。",
     tags: ["React", "TypeScript"],
   },
+  {
+    period: "2024.08 – 2025.06",
+    company: "チームラボエンジニアリング",
+    role: "アルバイト · ソリューションカタリスト",
+    isOngoing: false,
+    title: "チーム間の調整とプロジェクト進行の支援",
+    body: "複数のチームをまたいで話を聞きに行き、詰まっているところを見つけて橋渡しをしていました。コードを書く以外にもプロジェクトが前に進まなくなる理由があることを知った時期です。",
+    tags: [],
+  },
+  {
+    period: "2023.12 – 2024.06",
+    company: "株式会社ウフル",
+    role: "インターン · フロントエンド",
+    isOngoing: false,
+    title: "DX プロダクトの 0→1 開発",
+    body: "Next.js と Supabase で、立ち上げ段階のプロダクト開発を経験しました。メンターについてもらいながら、何もないところから形にしていく過程を一通り見られたのが大きかったです。",
+    tags: ["Next.js", "Supabase"],
+  },
+  {
+    period: "2023.08 – 2023.10",
+    company: "株式会社メディロム",
+    role: "インターン · Web開発",
+    isOngoing: false,
+    title: "はじめてのインターン",
+    body: "専門学校1年の夏、まだ制作物が何もない状態で受け入れてもらった最初の会社です。Progate で基礎を学ぶところから始めて、成果物の発表まで見てもらいました。",
+    tags: [],
+  },
 ];
 
 export default function WorksPage() {
@@ -107,13 +134,15 @@ export default function WorksPage() {
                     {title}
                   </h2>
                   <p className="text-sm leading-relaxed">{body}</p>
-                  <ul className="flex flex-wrap gap-2">
-                    {tags.map((tag) => (
-                      <li key={tag}>
-                        <Tag>{tag}</Tag>
-                      </li>
-                    ))}
-                  </ul>
+                  {tags.length > 0 ? (
+                    <ul className="flex flex-wrap gap-2">
+                      {tags.map((tag) => (
+                        <li key={tag}>
+                          <Tag>{tag}</Tag>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                   {image ? (
                     <Image
                       src={image.src}
