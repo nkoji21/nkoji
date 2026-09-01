@@ -5,7 +5,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { MailButton } from "@/components/ui/mail-button";
 
 export const metadata: Metadata = {
-  title: "Contact | nkoji",
+  title: "Contact",
   description: "お仕事のご相談・お問い合わせはこちらから。",
 };
 

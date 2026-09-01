@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SectionHeading } from "@/components/ui/section-heading";
 
 export const metadata: Metadata = {
-  title: "Activity | nkoji",
+  title: "Activity",
   description: "仕事や学びなど、これまでやってきたことの記録。",
 };
 

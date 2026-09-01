@@ -21,7 +21,10 @@ const titanOne = Titan_One({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "nkoji",
+  title: {
+    default: "nkoji",
+    template: "%s / nkoji",
+  },
   description: "nkoji's website",
   icons: {
     icon: "/icon.png",

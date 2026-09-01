@@ -27,7 +27,7 @@ export async function generateMetadata({
   if (!post) return {};
 
   return {
-    title: `${post.meta.title} | nkoji`,
+    title: post.meta.title,
     openGraph: {
       title: post.meta.title,
       type: "article",

@@ -5,7 +5,7 @@ import { SocialTiles } from "@/components/layout/social-links";
 import { SectionHeading } from "@/components/ui/section-heading";
 
 export const metadata: Metadata = {
-  title: "About | nkoji",
+  title: "About",
   description:
     "デザインが好きなソフトウェアエンジニア。Webを中心にプロダクトをつくっています。",
 };
