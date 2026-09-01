@@ -97,6 +97,42 @@ const WORKS = [
   },
 ];
 
+/** リンクがある項目はカード全体を押せるようにする */
+function CardShell({
+  href,
+  children,
+}: {
+  href?: string;
+  children: React.ReactNode;
+}) {
+  const className = "mt-2 block rounded-2xl bg-surface px-5 py-5 md:px-5.5";
+
+  if (!href) return <div className={className}>{children}</div>;
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group ${className} transition-colors duration-fast ease-out hover:bg-surface-hover`}
+    >
+      {children}
+    </a>
+  );
+}
+
+/** 年をまたぐ案件は開始年に置く */
+function groupByYear(works: typeof WORKS) {
+  const groups: { year: string; items: typeof WORKS }[] = [];
+  for (const work of works) {
+    const year = work.period.slice(0, 4);
+    const last = groups.at(-1);
+    if (last?.year === year) last.items.push(work);
+    else groups.push({ year, items: [work] });
+  }
+  return groups;
+}
+
 export default function WorksPage() {
   return (
     <>
@@ -105,101 +141,103 @@ export default function WorksPage() {
           Works
         </SectionHeading>
 
-        <ul className="mt-8 md:mt-10">
-          {WORKS.map(
-            (
-              {
-                period,
-                company,
-                companyHref,
-                role,
-                isOngoing,
-                title,
-                body,
-                tags,
-                image,
-              },
-              index,
-            ) => (
-              <li key={title} className="flex gap-5">
-                {/* 左のレール。ドットの位置は日付行の中心に合わせる */}
-                <div
-                  aria-hidden="true"
-                  className="relative flex w-2 shrink-0 justify-center"
-                >
-                  <span
-                    className={`absolute top-2 size-2.5 rounded-full ${
-                      isOngoing
-                        ? "bg-accent"
-                        : "border-2 border-line bg-background"
-                    }`}
-                  />
-                  {index < WORKS.length - 1 ? (
-                    <span className="absolute top-6.5 bottom-0 w-px bg-line" />
-                  ) : null}
-                </div>
+        <div className="mt-8 flex flex-col gap-7 md:mt-10">
+          {groupByYear(WORKS).map(({ year, items }) => (
+            <section key={year}>
+              <h2 className="font-bold text-foreground-strong text-sm tracking-wider">
+                {year}
+              </h2>
 
-                <div
-                  className={`flex flex-col gap-2 ${index === WORKS.length - 1 ? "" : "pb-10"}`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="font-bold text-accent text-xs">
-                      {period}
-                    </span>
-                    {isOngoing ? (
-                      <span className="rounded-xl bg-accent px-2 py-0.5 text-on-accent text-xs">
-                        現在
-                      </span>
-                    ) : null}
-                  </div>
+              <ul className="mt-3.5">
+                {items.map(
+                  (
+                    {
+                      period,
+                      company,
+                      companyHref,
+                      role,
+                      isOngoing,
+                      title,
+                      body,
+                      tags,
+                      image,
+                    },
+                    index,
+                  ) => (
+                    <li key={title} className="flex gap-4">
+                      {/* 左のレール。ドットは日付行に合わせる */}
+                      <div
+                        aria-hidden="true"
+                        className="relative flex w-2 shrink-0 justify-center"
+                      >
+                        <span
+                          className={`absolute top-1.5 size-2.5 rounded-full ${
+                            isOngoing
+                              ? "bg-accent"
+                              : "border-2 border-line bg-background"
+                          }`}
+                        />
+                        {index < items.length - 1 ? (
+                          <span className="absolute top-6 bottom-0 w-px bg-line" />
+                        ) : null}
+                      </div>
 
-                  {companyHref ? (
-                    <a
-                      href={companyHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-1.5 self-start font-bold text-foreground-strong text-lg md:text-xl"
-                    >
-                      {company}
-                      <IconArrowUpRight className="size-3.5 text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </a>
-                  ) : (
-                    <p className="font-bold text-foreground-strong text-lg md:text-xl">
-                      {company}
-                    </p>
-                  )}
+                      <div
+                        className={`min-w-0 flex-1 ${index === items.length - 1 ? "" : "pb-5"}`}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className="font-bold text-accent text-xs">
+                            {period}
+                          </span>
+                          {isOngoing ? (
+                            <span className="rounded-xl bg-accent px-2 py-0.5 text-on-accent text-xs">
+                              現在
+                            </span>
+                          ) : null}
+                        </div>
 
-                  <p className="text-xs">{role}</p>
-                  <p className="font-bold text-foreground-strong text-sm">
-                    {title}
-                  </p>
-                  <p className="text-sm leading-relaxed">{body}</p>
+                        <CardShell href={companyHref}>
+                          <p className="flex items-center gap-1.5 font-bold text-foreground-strong text-lg md:text-xl">
+                            {company}
+                            {companyHref ? (
+                              <IconArrowUpRight className="size-3.5 shrink-0 text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                            ) : null}
+                          </p>
+                          <p className="mt-2 text-xs">{role}</p>
+                          <p className="mt-2 font-bold text-foreground-strong text-sm">
+                            {title}
+                          </p>
+                          <p className="mt-2 text-sm leading-relaxed">{body}</p>
 
-                  {tags.length > 0 ? (
-                    <ul className="flex flex-wrap gap-2">
-                      {tags.map((tag) => (
-                        <li key={tag}>
-                          <Tag>{tag}</Tag>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
+                          {tags.length > 0 ? (
+                            <ul className="mt-3 flex flex-wrap gap-2">
+                              {tags.map((tag) => (
+                                <li key={tag}>
+                                  <Tag>{tag}</Tag>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : null}
 
-                  {image ? (
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      width={1200}
-                      height={630}
-                      sizes="(min-width: 48rem) 28rem, 100vw"
-                      className="mt-1 h-auto w-full max-w-112 rounded-xl border border-line"
-                    />
-                  ) : null}
-                </div>
-              </li>
-            ),
-          )}
-        </ul>
+                          {image ? (
+                            <Image
+                              src={image.src}
+                              alt={image.alt}
+                              width={1200}
+                              height={630}
+                              sizes="(min-width: 48rem) 28rem, 100vw"
+                              className="mt-3 h-auto w-full max-w-112 rounded-xl border border-line"
+                            />
+                          ) : null}
+                        </CardShell>
+                      </div>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </section>
+          ))}
+        </div>
       </div>
       <SiteFooter />
     </>
