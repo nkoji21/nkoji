@@ -54,12 +54,7 @@ export function Dropdown({
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
         aria-label={label}
-        // 枠線の太さは変えない。変えると幅がずれて中身が動く
-        className={`flex h-11.5 w-full items-center justify-between gap-2.5 rounded-xl border bg-surface pr-3.5 pl-4 text-left text-sm transition-colors duration-fast ease-out ${
-          open
-            ? "border-accent text-foreground-strong"
-            : "border-line hover:bg-surface-hover"
-        }`}
+        className="flex h-11.5 w-full items-center justify-between gap-2.5 rounded-xl border border-line bg-surface pr-3.5 pl-4 text-left text-sm transition-colors duration-fast ease-out hover:bg-surface-hover"
       >
         <span className="truncate">{selected?.label}</span>
         <IconCaretDown
