@@ -42,7 +42,7 @@ export default function RootLayout({
     <html lang="ja" className={`${mplus.variable} ${titanOne.variable}`}>
       <body className="flex min-h-dvh flex-col">
         {/* ヘッダーはモバイルでは出さないので、余白ごと隠す */}
-        <div className="sticky top-0 z-40 hidden bg-background/80 pt-12 pb-4 backdrop-blur-md md:block">
+        <div className="sticky top-0 z-40 hidden bg-background/80 py-4 backdrop-blur-md md:block">
           <SiteHeader />
         </div>
         <main className="flex flex-1 flex-col">{children}</main>
