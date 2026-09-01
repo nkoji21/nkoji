@@ -3,102 +3,117 @@ import Image from "next/image";
 import { IconArrowUpRight } from "@/components/icons";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { Tag } from "@/components/ui/tag";
 
 export const metadata: Metadata = {
-  title: "Works | nkoji",
-  description: "業務委託・インターンで携わったプロダクト開発。",
+  title: "Activity | nkoji",
+  description: "仕事や学びなど、これまでやってきたことの記録。",
 };
 
 /** プロダクト名は出さない（契約で委託業務として特定されているため） */
-const WORKS = [
+const ACTIVITIES = [
   {
     period: "2026.06 –",
-    company: "株式会社Autest",
-    companyHref: "https://www.autest.co.jp/",
+    name: "株式会社Autest",
+    href: "https://www.autest.co.jp/",
     role: "業務委託 · ソフトウェアエンジニア",
     isOngoing: true,
-    title: "テスト自動化プロダクトの立ち上げ開発",
-    body: "立ち上げ初期のフロントエンドを、デザインから実装まで担当しています。並行して Web アプリの受託も進めていて、現地に足を運んで実機で検証したりしていました。",
-    tags: ["TypeScript", "React", "Next.js", "Figma"],
+    body: "テスト自動化プロダクトの立ち上げに参加しています。",
   },
   {
-    period: "2026.02 –",
-    company: "株式会社StepAI",
-    companyHref: "https://www.stepai.co.jp/",
-    role: "業務委託 · フロントエンド / デザイン",
+    period: "2026.03 –",
+    name: "Yamada UI",
+    href: "https://yamada-ui.com/ja/docs/community",
+    role: "OSS · メンテナー",
     isOngoing: true,
-    title: "音声AIプロダクトのフロントエンド開発",
-    body: "フロントエンド全体の設計・実装に加えて、デザインシステムの構築から UX リサーチ、CI/CD の整備まで担当しました。",
-    tags: ["TypeScript", "Next.js", "Figma", "GitHub Actions"],
+    body: "OSS のメンテナーになりました。",
+  },
+  {
+    period: "2026.02 – 2026.07",
+    name: "株式会社StepAI",
+    href: "https://www.stepai.co.jp/",
+    role: "業務委託 · フロントエンド / デザイン",
+    isOngoing: false,
+    body: "音声AIプロダクトのフロントエンドをつくっていました。",
   },
   {
     period: "2025.12",
-    company: "麻雀アプリの OGP 画像",
+    name: "麻雀アプリの OGP 画像",
     role: "受託 · グラフィックデザイン",
     isOngoing: false,
-    title: "縮小表示でも順位が伝わる設計",
-    body: "対局結果を SNS でシェアするための画像をデザイン。タイムラインを流し見する人が何を知りたいかを整理して、順位とスコアが一目で分かるよう配色で強弱をつけました。",
-    tags: ["Figma"],
+    body: "対局結果をシェアするための OGP 画像をデザインしました。",
     image: {
-      src: "/works/mahjong-ogp.webp",
+      src: "/activity/mahjong-ogp.webp",
       alt: "対局結果の OGP 画像。1位から4位までの順位・スコア・増減が並んでいる",
     },
   },
   {
     period: "2025.10 – 2026.02",
-    company: "燈株式会社",
-    companyHref: "https://akariinc.co.jp/",
+    name: "燈株式会社",
+    href: "https://akariinc.co.jp/",
     role: "インターン · バックエンド",
     isOngoing: false,
-    title: "建築業界向け LLM チャットアプリケーション",
-    body: "バックエンドの API 設計と実装を担当していました。",
-    tags: ["Go", "Python"],
+    body: "建築業界向け LLM チャットアプリのバックエンドを担当しました。",
+  },
+  {
+    period: "2025.04 –",
+    name: "42 Tokyo",
+    href: "https://42tokyo.jp/",
+    role: "学生",
+    isOngoing: true,
+    body: "1ヶ月間の入学試験 Piscine を経て入学しました。",
   },
   {
     period: "2025.03 – 2025.10",
-    company: "株式会社オスリー",
-    companyHref: "https://osuly.jp/",
+    name: "株式会社オスリー",
+    href: "https://osuly.jp/",
     role: "インターン · フロントエンド",
     isOngoing: false,
-    title: "CtoC マッチングアプリ",
-    body: "フロントエンド開発を担当。メンターから技術の学び方を教わりました。ライブラリを深掘りしたり、技術ブログを読む習慣がついたのもこの頃です。",
-    tags: ["React", "TypeScript", "TanStack Query"],
+    body: "CtoC マッチングアプリのフロントエンドを担当しました。",
   },
   {
     period: "2024.08 – 2025.06",
-    company: "チームラボエンジニアリング",
-    companyHref: "https://www.team-lab.com/",
+    name: "チームラボエンジニアリング",
+    href: "https://www.team-lab.com/",
     role: "アルバイト · ソリューションカタリスト",
     isOngoing: false,
-    title: "リサーチと提案資料づくり",
-    body: "競合リサーチや提案資料の作成、Figma でのワイヤーフレーム制作を担当していました。",
-    tags: ["Figma", "GAS"],
+    body: "競合リサーチや提案資料の作成を担当しました。",
+  },
+  {
+    period: "2024.08 – 2025.04",
+    name: "InTech",
+    href: "https://intech-site.vercel.app/",
+    role: "Founder",
+    isOngoing: false,
+    body: "専門学校でサークルを立ち上げました。",
   },
   {
     period: "2023.12 – 2024.06",
-    company: "株式会社ウフル",
-    companyHref: "https://uhuru.co.jp/",
+    name: "株式会社ウフル",
+    href: "https://uhuru.co.jp/",
     role: "インターン · フロントエンド",
     isOngoing: false,
-    title: "DX プロダクトの 0→1 開発",
-    body: "立ち上げ段階のプロダクト開発を経験しました。KJ法をはじめて教わったのもここでした。",
-    tags: ["Next.js", "Supabase"],
+    body: "DX プロダクトの 0→1 開発を経験しました。",
   },
   {
     period: "2023.08 – 2023.10",
-    company: "株式会社メディロム",
-    companyHref: "https://medirom.co.jp/",
+    name: "株式会社メディロム",
+    href: "https://medirom.co.jp/",
     role: "インターン · Web開発",
     isOngoing: false,
-    title: "はじめてのインターン",
-    body: "専門学校1年の夏、まだ制作物が何もない状態で受け入れてもらった最初の会社です。基礎を学ぶところから始めて、成果物をつくりました。",
-    tags: ["Ruby on Rails"],
+    body: "はじめてのインターンでした。",
+  },
+  {
+    period: "2023.04 –",
+    name: "東京デザインテクノロジーセンター専門学校",
+    href: "https://www.tech.ac.jp/",
+    role: "UI/UX デザイナー専攻",
+    isOngoing: true,
+    body: "UI/UX デザインを専攻しています。",
   },
 ];
 
 /** リンクがある項目はカード全体を押せるようにする */
-function CardShell({
+function Card({
   href,
   children,
 }: {
@@ -121,28 +136,28 @@ function CardShell({
   );
 }
 
-/** 年をまたぐ案件は開始年に置く */
-function groupByYear(works: typeof WORKS) {
-  const groups: { year: string; items: typeof WORKS }[] = [];
-  for (const work of works) {
-    const year = work.period.slice(0, 4);
+/** 年をまたぐものは開始年に置く */
+function groupByYear(items: typeof ACTIVITIES) {
+  const groups: { year: string; items: typeof ACTIVITIES }[] = [];
+  for (const item of items) {
+    const year = item.period.slice(0, 4);
     const last = groups.at(-1);
-    if (last?.year === year) last.items.push(work);
-    else groups.push({ year, items: [work] });
+    if (last?.year === year) last.items.push(item);
+    else groups.push({ year, items: [item] });
   }
   return groups;
 }
 
-export default function WorksPage() {
+export default function ActivityPage() {
   return (
     <>
       <div className="mx-auto w-full max-w-190 flex-1 px-5 pt-10 md:pt-16">
         <SectionHeading as="h1" eyebrow="やってきたこと">
-          Works
+          Activity
         </SectionHeading>
 
         <div className="mt-8 flex flex-col gap-7 md:mt-10">
-          {groupByYear(WORKS).map(({ year, items }) => (
+          {groupByYear(ACTIVITIES).map(({ year, items }) => (
             <section key={year}>
               <h2 className="font-bold text-foreground-strong text-sm tracking-wider">
                 {year}
@@ -151,20 +166,10 @@ export default function WorksPage() {
               <ul className="mt-3.5">
                 {items.map(
                   (
-                    {
-                      period,
-                      company,
-                      companyHref,
-                      role,
-                      isOngoing,
-                      title,
-                      body,
-                      tags,
-                      image,
-                    },
+                    { period, name, href, role, isOngoing, body, image },
                     index,
                   ) => (
-                    <li key={title} className="flex gap-4">
+                    <li key={name} className="flex gap-4">
                       {/* 左のレール。ドットは日付行に合わせる */}
                       <div
                         aria-hidden="true"
@@ -196,28 +201,15 @@ export default function WorksPage() {
                           ) : null}
                         </div>
 
-                        <CardShell href={companyHref}>
+                        <Card href={href}>
                           <p className="flex items-center gap-1.5 font-bold text-foreground-strong text-lg md:text-xl">
-                            {company}
-                            {companyHref ? (
+                            {name}
+                            {href ? (
                               <IconArrowUpRight className="size-3.5 shrink-0 text-accent transition-transform duration-fast ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                             ) : null}
                           </p>
                           <p className="mt-2 text-xs">{role}</p>
-                          <p className="mt-2 font-bold text-foreground-strong text-sm">
-                            {title}
-                          </p>
                           <p className="mt-2 text-sm leading-relaxed">{body}</p>
-
-                          {tags.length > 0 ? (
-                            <ul className="mt-3 flex flex-wrap gap-2">
-                              {tags.map((tag) => (
-                                <li key={tag}>
-                                  <Tag>{tag}</Tag>
-                                </li>
-                              ))}
-                            </ul>
-                          ) : null}
 
                           {image ? (
                             <Image
@@ -229,7 +221,7 @@ export default function WorksPage() {
                               className="mt-3 h-auto w-full max-w-112 rounded-xl border border-line"
                             />
                           ) : null}
-                        </CardShell>
+                        </Card>
                       </div>
                     </li>
                   ),

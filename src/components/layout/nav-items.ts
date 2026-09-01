@@ -10,7 +10,7 @@ import {
 export const NAV_ITEMS = [
   { href: "/", label: "Home", icon: IconHouse },
   { href: "/about", label: "About", icon: IconUser },
-  { href: "/works", label: "Works", icon: IconBriefcase },
+  { href: "/activity", label: "Activity", icon: IconBriefcase },
   { href: "/blog", label: "Blog", icon: IconNotePencil },
   { href: "/contact", label: "Contact", icon: IconPaperPlane },
 ] as const;
