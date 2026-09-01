@@ -8,44 +8,54 @@ const STORAGE_KEY = "nkoji:sound";
 /** 連続で鳴っても不快にならない音量 */
 const VOLUME = 0.6;
 
-/**
- * 音源は先に読み込んでおく。押されてから取りに行くと、
- * モバイル回線では取得を待つあいだ音が遅れて聞こえるため。
- * 15KB 程度なので、鳴らさない訪問者にかかる負担よりも遅延の解消を取る。
+/*
+ * 音は Web Audio で鳴らす。
+ *
+ * audio 要素をひとつ使い回すと、鳴らすたび currentTime を戻す必要があり、
+ * その巻き戻しに時間がかかる。連打すると前の再生が打ち切られるので
+ * 鳴り損ねも起きる。
+ *
+ * Web Audio なら、読み込んだ音を一度だけ複号しておき、鳴らすたびに
+ * 使い捨ての音源を作って即座に流せる。重ねて鳴らせるので連打にも耐える。
  */
-const buffers = new Map<SoundName, HTMLAudioElement>();
+let context: AudioContext | null = null;
+const decoded = new Map<SoundName, AudioBuffer>();
 
-function getAudio(name: SoundName) {
-  let audio = buffers.get(name);
-  if (!audio) {
-    audio = new Audio(`/sounds/${name}.wav`);
-    audio.preload = "auto";
-    audio.volume = VOLUME;
-    buffers.set(name, audio);
+function getContext() {
+  if (!context) {
+    const Ctor =
+      window.AudioContext ??
+      (window as unknown as { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext;
+    if (!Ctor) return null;
+    context = new Ctor();
   }
-  return audio;
+  return context;
+}
+
+/** 取得と複号は 1 回だけ。以後は複号済みのものを使い回す */
+async function load(name: SoundName) {
+  if (decoded.has(name)) return;
+
+  const ctx = getContext();
+  if (!ctx) return;
+
+  try {
+    const res = await fetch(`/sounds/${name}.wav`);
+    const buffer = await ctx.decodeAudioData(await res.arrayBuffer());
+    decoded.set(name, buffer);
+  } catch {
+    // 取れなければ音を諦める。動作そのものは止めない
+  }
 }
 
 /**
  * iOS などは、ユーザー操作から始まった再生でないと音を出さない。
- * 最初の操作で一度だけ再生を試みて解錠しておく。
- *
- * 解錠には本命とは別の要素を使う。同じ要素を使うと、解錠側が音量を
- * 戻したり pause したりするのと、本命の再生とがぶつかって、
- * 1 回目が無音のまま止められてしまう。
+ * AudioContext も操作の中で resume しないと止まったままになる。
  */
-let unlocked = false;
-
 function unlock() {
-  if (unlocked) return;
-  unlocked = true;
-
-  const primer = new Audio(`/sounds/click.wav`);
-  primer.volume = 0;
-  primer
-    .play()
-    .then(() => primer.pause())
-    .catch(() => {});
+  const ctx = getContext();
+  if (ctx?.state === "suspended") ctx.resume().catch(() => {});
 }
 
 /* --- 有効・無効の状態。複数のトグルが同じ値を見るので外に持つ --- */
@@ -68,28 +78,40 @@ const getSnapshot = () => enabled;
 /** サーバーでは常に ON 扱い。実際の値はマウント後に localStorage から読む */
 const getServerSnapshot = () => true;
 
-/**
- * 直前に pointerdown で鳴らした時刻。
- * click はタップから最大 300ms ほど遅れて来るので、押した瞬間に鳴らし、
- * 後から来る click の分を捨てて二重に鳴らないようにする。
+/*
+ * 同じ操作で二重に鳴らさないための印。
+ *
+ * ひとつの操作は pointerdown → click の順で届き、押した瞬間に鳴らすので
+ * 後から来る click のぶんは捨てたい。ただ時間で判定すると、
+ * 速い連打まで巻き込んで消してしまう。
+ * そこで pointerdown で目印を立て、次の click 1 回だけを飛ばす。
  */
-let lastPlayedAt = 0;
-const DOUBLE_PLAY_MS = 400;
+let handledByPointer = false;
 
 function play(name: SoundName) {
   if (!enabled) return;
 
-  const audio = getAudio(name);
-  // 連打しても鳴り始めを揃える
-  audio.currentTime = 0;
-  // 解錠前はブラウザに拒否される。無視してよい
-  audio.play().catch(() => {});
-  lastPlayedAt = performance.now();
+  const ctx = getContext();
+  const buffer = decoded.get(name);
+  if (!ctx || !buffer) return;
+
+  // 使い捨ての音源を都度作る。前の音を止めないので連打しても重なって鳴る
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+
+  const gain = ctx.createGain();
+  gain.gain.value = VOLUME;
+
+  source.connect(gain).connect(ctx.destination);
+  source.start();
 }
 
 export function playSound(name: SoundName) {
-  // 押した時点で既に鳴っているなら、後続の click では鳴らさない
-  if (performance.now() - lastPlayedAt < DOUBLE_PLAY_MS) return;
+  // 押した瞬間に鳴らしていれば、その操作の click では鳴らさない
+  if (handledByPointer) {
+    handledByPointer = false;
+    return;
+  }
   play(name);
 }
 
@@ -120,15 +142,18 @@ function setupSound() {
   if (didSetup) return;
   didSetup = true;
 
-  getAudio("click");
+  load("click");
 
   document.addEventListener("pointerdown", (event) => {
     unlock();
     const target = event.target as Element | null;
     if (target?.closest?.(SOUND_TOGGLE)) return;
-    if (target?.closest?.(PRESSABLE)) play("click");
+    if (target?.closest?.(PRESSABLE)) {
+      play("click");
+      handledByPointer = true;
+    }
   });
-  document.addEventListener("keydown", unlock, { once: true });
+  document.addEventListener("keydown", unlock);
 }
 
 /**
